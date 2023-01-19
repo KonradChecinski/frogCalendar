@@ -6,6 +6,9 @@
   padding: 2rem;
 
   font-weight: normal;
+  min-height: 100%;
+  flex:1;
+  display: flex;
 }
 
 a,
