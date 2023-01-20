@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginViewVue from '../views/LoginView.vue'
+import ProjectViewVue from '../views/ProjectView.vue'
 
 
 const router = createRouter({
@@ -8,7 +9,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('../views/ProjectView.vue'),
+            component: () => ProjectViewVue,
             meta: {
                 requiresAuth: true
             }

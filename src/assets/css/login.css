@@ -1,0 +1,17 @@
+.input-container {
+    display: flex;
+
+    width: 100%;
+    border-bottom: 1px solid #0C9ED5
+}
+
+input {
+    background-color: #1E1E1E;
+    margin-bottom: 2rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8rem;
+}
