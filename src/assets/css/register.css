@@ -1,0 +1,50 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0;
+    margin-bottom: 25px;
+
+    width: 275px;
+}
+
+input {
+    width: 100%;
+    background-color: #2A2D30;
+    border: 1px #0C9ED5 solid;
+    border-radius: 3px;
+    padding: 10px;
+    color: white;
+}
+
+.login-p {
+    margin-top: 20px;
+    color: white;
+}
+
+.login-span {
+    color: #0C9ED5;
+    font-weight: bold;
+}
+
+
+.button-container {
+    width: 275px;
+    margin-top: 40px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 350px) {
+    .input-container {
+        width: 100%;
+    }
+
+    .button-container {
+        width: 100%;
+    }
+}
