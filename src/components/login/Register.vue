@@ -1,40 +1,57 @@
 <script setup lang="ts">
-defineProps<{
-  msg: string
-}>()
+import Button from "@/components/Button.vue";
+import { reactive } from "vue";
+// defineProps<{
+//   title: { type: string; required: true };
+// }>();
+const state = reactive({
+  username: "",
+  email: "",
+  password: "",
+  repeatPassword: "",
+});
 </script>
 
 <template>
-  <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
-    </h3>
-  </div>
+  <form action="" method="post">
+    <div class="input-container">
+      <p>Nazwa użytkownika</p>
+      <input type="text" name="uname" required v-model="state.username" />
+    </div>
+
+    <div class="input-container">
+      <p>Email</p>
+      <input type="text" name="email" required v-model="state.email" />
+    </div>
+
+    <div class="input-container">
+      <p>Hasło</p>
+      <input type="password" name="psw" required v-model="state.password" />
+    </div>
+
+    <div class="input-container">
+      <p>Powtórz hasło</p>
+      <input
+        type="password"
+        name="rpsw"
+        required
+        v-model="state.repeatPassword"
+      />
+    </div>
+
+    <div class="button-container">
+      <Button title="Zarejestruj się" />
+    </div>
+
+    <p class="login-p">
+      Masz już konto? <span class="login-span">Zaloguj się</span>
+    </p>
+
+    <!-- <div class="container" style="background-color:#f1f1f1">
+        <button type="button" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+      </div> -->
+  </form>
 </template>
 
-<style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  top: -10px;
-}
-
-h3 {
-  font-size: 1.2rem;
-}
-
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
-}
-</style>
+<style scoped src="@/assets/css/register.css"></style>

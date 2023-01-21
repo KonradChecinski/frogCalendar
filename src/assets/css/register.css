@@ -1,34 +1,30 @@
 .input-container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+
     padding: 0;
     margin-bottom: 25px;
 
     width: 275px;
-    border-bottom: 1px solid #0C9ED5
 }
 
 input {
     width: 100%;
-    background-color: #181818;
-    border: none;
+    background-color: #2A2D30;
+    border: 1px #0C9ED5 solid;
+    border-radius: 3px;
     padding: 10px;
     color: white;
 }
 
-.register-p {
+.login-p {
     margin-top: 20px;
     color: white;
 }
 
-.register-span {
+.login-span {
     color: #0C9ED5;
     font-weight: bold;
-}
-
-::placeholder {
-    color: white;
-    opacity: 1;
 }
 
 

@@ -1,14 +1,21 @@
 <script setup lang="ts">
+import Button from "@/components/Button.vue";
+import { reactive } from "vue";
 // defineProps<{
-//   msg: string
-// }>()
+//   title: { type: string; required: true };
+// }>();
+const state = reactive({ username: "", password: "" });
 </script>
 
 <template>
   <form action="" method="post">
     <div class="input-container">
       <div class="img-container">
-        <img src="" alt="Username icon" class="" />
+        <img
+          src="@/assets/icons/username_icon.png"
+          alt="Username icon"
+          class=""
+        />
       </div>
 
       <input
@@ -16,18 +23,35 @@
         placeholder="Email / Nazwa użytkownika"
         name="uname"
         required
+        v-model="state.username"
       />
     </div>
 
     <div class="input-container">
-      <div class="img-container">
-        <img src="" alt="Password icon" class="" />
+      <div class="password-icon-container">
+        <img
+          src="@/assets/icons/password_icon.svg"
+          alt="Password icon"
+          class=""
+        />
       </div>
 
-      <input type="password" placeholder="Enter Password" name="psw" required />
+      <input
+        type="password"
+        placeholder="Enter Password"
+        name="psw"
+        required
+        v-model="state.password"
+      />
     </div>
 
-    <button type="submit">Login</button>
+    <div class="button-container">
+      <Button title="Zaloguj się" />
+    </div>
+
+    <p class="register-p">
+      Nie masz konta? <span class="register-span">Zarejestruj się</span>
+    </p>
 
     <!-- <div class="container" style="background-color:#f1f1f1">
         <button type="button" class="cancelbtn">Cancel</button>

@@ -1,8 +1,8 @@
-#login-container {
+#register-container {
     align-self: center;
     justify-self: center;
     width: 100%;
-    margin-top: 50vh;
+    margin-top: 5vh;
 
     display: flex;
     flex-direction: column;
@@ -13,7 +13,7 @@
     width: 322%;
     height: 55%;
     left: -152%;
-    top: -40%;
+    top: -51%;
     background: #0C9ED5;
     transform: rotate(326deg);
     opacity: 0.5;
@@ -24,8 +24,27 @@
     width: 300%;
     height: 75%;
     left: -125%;
-    top: -74%;
+    top: 117%;
     background: #0E8AB9;
-    transform: rotate(-160deg);
+    transform: rotate(326deg);
     opacity: 0.5;
+}
+
+#rectangle3 {
+    position: absolute;
+    width: 300%;
+    height: 75%;
+    left: -125%;
+    top: 94%;
+    background: #0E8AB9;
+    transform: rotate(191deg);
+    opacity: 0.5;
+}
+
+.create-acc-text {
+    margin-top: 5vh;
+    text-align: center;
+    color: #0C9ED5;
+    font-size: 2rem;
+    font-weight: bold;
 }
