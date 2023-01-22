@@ -44,7 +44,7 @@ const state = reactive({
     </div>
 
     <p class="login-p">
-      Masz już konto? <span class="login-span">Zaloguj się</span>
+      Masz już konto? <span class="login-span"><RouterLink to="/login">Zaloguj się</RouterLink></span>
     </p>
 
     <!-- <div class="container" style="background-color:#f1f1f1">

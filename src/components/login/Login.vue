@@ -1,10 +1,22 @@
 <script setup lang="ts">
 import Button from "@/components/Button.vue";
 import { reactive } from "vue";
+import { usefetch } from '@/stores/fetch';
+import { createPinia } from 'pinia';
 // defineProps<{
 //   title: { type: string; required: true };
 // }>();
 const state = reactive({ username: "", password: "" });
+
+const pinia = createPinia();
+const getDate = usefetch(pinia)
+
+
+
+function login() {
+  console.log('Button is clicked');
+  getDate.fetchData('/');
+}
 </script>
 
 <template>
@@ -46,11 +58,11 @@ const state = reactive({ username: "", password: "" });
     </div>
 
     <div class="button-container">
-      <Button title="Zaloguj się" />
+      <Button title="Zaloguj się" @click="login"/>
     </div>
 
     <p class="register-p">
-      Nie masz konta? <span class="register-span">Zarejestruj się</span>
+      Nie masz konta? <span class="register-span"><RouterLink to="/register">Zarejestruj się</RouterLink></span>
     </p>
 
     <!-- <div class="container" style="background-color:#f1f1f1">

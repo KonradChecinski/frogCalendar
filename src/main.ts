@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -19,13 +20,16 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
-
+app.use(VueAxios, axios)
+app.provide('axios', app.config.globalProperties.axios)
 
 
 library.add(faSun, faArrowLeftLong, faArrowRightLong)
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
+
+
 
 
 router.beforeEach((to, from, next) => {
