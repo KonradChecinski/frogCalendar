@@ -22,7 +22,6 @@ function login(e: any) {
     (error) =>{
       let result: any = error;
       result.then((res: any) => {
-        console.log('error')
         console.log(res)
       })
     }

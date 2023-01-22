@@ -21,17 +21,15 @@ export const usefetch = defineStore('fetch', () => {
 
       // console.log(mainPath + path);
       // console.log(method);
-      console.log(option);
+      // console.log(option);
   
       fetch(mainPath + path, option)
       .then(res => {
-        console.log(res.ok);
         if(!res.ok) {
-          console.log('reject');
+          console.log(`Error: ${res.status}`);
           reject(res.json());
          }
         else {
-          console.log('resolve');
           resolve(res.json());
        }    
       })
