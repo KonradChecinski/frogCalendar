@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import CalendarMonth from "@/components/Calendar/CalendarMonth.vue";
-import CalendarWeek from "@/components/Calendar/CalendarWeek.vue";
+
 </script>
 
 <template>

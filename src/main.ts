@@ -10,44 +10,29 @@ import { faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight
 
 import App from './App.vue'
 import router from './router'
+
 import { useLoggedStore } from './stores/LoggedIn'
+import { useFetchStore } from './stores/fetch'
 
 import './assets/css/main.css'
 
 const app = createApp(App)
-const pinia = createPinia()
+
+const pinia = createPinia();
+const getDate = useFetchStore(pinia);
+const LoggedIn = useLoggedStore(pinia);
+
 
 app.use(pinia)
 app.use(router)
-
 app.use(VueAxios, axios)
 app.provide('axios', app.config.globalProperties.axios)
 
-
-library.add(faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight)
-
+library.add(faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight, faSquare, faPlusCircle)
 app.component('font-awesome-icon', FontAwesomeIcon)
+
+
+
 app.mount('#app')
 
 
-
-
-router.beforeEach((to, from, next) => {
-    const logged = useLoggedStore(pinia)
-
-    if(logged.isLoggedIn && to.matched.some(record => record.path == '/login')){
-        next('/');
-    }
-    else{
-        if (to.matched.some(record => record.meta.requiresAuth)) {
-            if (!logged.isLoggedIn) {
-                next({ name: 'Login' })
-            } else {
-                next();
-            }
-        } else {
-            next()
-        }
-    }
-
-})
