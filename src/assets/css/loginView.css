@@ -2,7 +2,7 @@
     align-self: center;
     justify-self: center;
     width: 100%;
-    margin-top: 50vh;
+    margin-top: 30vh;
 
     display: flex;
     flex-direction: column;
@@ -28,4 +28,12 @@
     background: #0E8AB9;
     transform: rotate(-160deg);
     opacity: 0.5;
+}
+
+.login-acc-text {
+    margin-top: 20vh;
+    text-align: center;
+    color: #0C9ED5;
+    font-size: 2rem;
+    font-weight: bold;
 }

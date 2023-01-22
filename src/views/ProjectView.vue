@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import CalendarMonth from '@/components/Calendar/CalendarMonth.vue';
-import CalendarWeek from '@/components/Calendar/CalendarWeek.vue';
-
 
 </script>
 
@@ -11,13 +8,8 @@ import CalendarWeek from '@/components/Calendar/CalendarWeek.vue';
     <!-- <CalendarWeek>
       Kalendarz2tyg
     </CalendarWeek> -->
+    <drawerMenu />
   </div>
 </template>
 
-<style scoped>
-.app-views-container {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-</style>
+<style scoped src="@/assets/css/projectView.css"></style>
