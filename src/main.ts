@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, computed } from 'vue'
 import { createPinia } from 'pinia'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -17,37 +17,66 @@ import './assets/css/main.css'
 const app = createApp(App)
 const pinia = createPinia()
 
+
 app.use(pinia)
 app.use(router)
-
 app.use(VueAxios, axios)
 app.provide('axios', app.config.globalProperties.axios)
 
-
-library.add(faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight)
-
+library.add(faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight, faSquare, faPlusCircle)
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.mount('#app')
 
+
+const LoggedIn = useLoggedStore(pinia);
+if(isLocalStorageAvailable()){
+    if(localStorage.getItem('APIKey') !== null){
+        LoggedIn.APIKey = localStorage.getItem('APIKey')
+        LoggedIn.isLoggedIn = true;
+    } 
+}
 
 
 
 router.beforeEach((to, from, next) => {
-    const logged = useLoggedStore(pinia)
-
-    if(logged.isLoggedIn && to.matched.some(record => record.path == '/login')){
+    const Logged = useLoggedStore(pinia);
+    const isLoggedIn  = computed(() => Logged.isLoggedIn);
+    console.log('dziala');
+    if(isLoggedIn.value && to.matched.some(record => record.path == '/login')){
+        console.log('tu');
         next('/');
     }
     else{
+        console.log('tutaj');
+        console.log(isLoggedIn.value);
         if (to.matched.some(record => record.meta.requiresAuth)) {
-            if (!logged.isLoggedIn) {
+            if (!isLoggedIn.value) {
+                console.log('tutaj2');
                 next({ name: 'Login' })
             } else {
+                console.log('tutaj3');
                 next();
             }
         } else {
+            console.log('tutaj4');
             next()
         }
     }
 
 })
+
+
+
+app.mount('#app')
+
+
+
+function isLocalStorageAvailable(){
+    var test = 'test';
+    try {
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+    } catch(e) {
+        return false;
+    }
+  }
