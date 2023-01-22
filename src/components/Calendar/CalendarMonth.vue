@@ -205,18 +205,18 @@ const getWeekOfYear = function (date: Date) {
 
   <div class="calendar-header">
     <button @click="setMonthEarlier">
-      <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+      <font-awesome-icon icon="fa-solid fa-chevron-left" />
     </button>
     <div class="header-text">
-      <p>MIESIĄC</p>
+      <p style="color: #0c9ed5">MIESIĄC</p>
       <h2>{{ monthNames[actualMonth] + " " + actualYear }}</h2>
     </div>
     <button @click="setMonthLater">
-      <font-awesome-icon icon="fa-solid fa-arrow-right-long" />
+      <font-awesome-icon icon="fa-solid fa-chevron-right" />
     </button>
   </div>
   <div class="calendar">
-    <div class="row row-info"></div>
+    <!-- <div class="row row-info"></div> -->
     <div class="row row-info">
       <div class="day day-name" v-for="item in dayNames">{{ item }}</div>
     </div>
@@ -242,6 +242,8 @@ const getWeekOfYear = function (date: Date) {
       </div>
     </div>
   </div>
+
+  <div class="add-button"><p class="plus">+</p></div>
 </template>
 
 <style scoped src="@/assets/css/calendarMonth.css"></style>

@@ -10,11 +10,19 @@
 .calendar-header {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgb(84, 84, 84);
+
     background: rgba(255, 255, 255, 0.15);
 }
 
 .header-text {
     text-align: center;
+}
+
+button {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
 }
 
 .calendar {
@@ -40,6 +48,10 @@
     flex: 3;
 
     border: 1px solid transparent;
+}
+
+.day-name {
+    color: #0C9ED5;
 }
 
 .day-name,
@@ -82,4 +94,27 @@
     padding: 5px;
     border-radius: 8px;
     color: rgb(44, 44, 44);
+}
+
+.add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    left: 80%;
+    right: 7%;
+    top: 90%;
+    background: #0C9ED5;
+    border-radius: 8px;
+
+
+}
+
+.plus {
+    position: relative;
+    font-size: 3rem;
+    color: black;
+    bottom: 7%;
 }
