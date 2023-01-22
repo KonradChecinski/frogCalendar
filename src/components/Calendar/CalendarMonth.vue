@@ -1,8 +1,9 @@
 <script setup lang="ts">
-// defineProps<{
-//   msg: string
-// }>()
 import { reactive, computed, watch } from "vue";
+
+// defineProps<{
+//   menuOpen: boolean;
+// }>();
 
 class Day {
   id: string;
@@ -197,11 +198,11 @@ const getWeekOfYear = function (date: Date) {
 </script>
 
 <template>
-  <div class="top-nav-bar">
+  <!-- <div class="top-nav-bar">
     <div class="menu-icon-container">
       <img id="menu-icon" src="@/assets/icons/menu_icon.png" />
     </div>
-  </div>
+  </div> -->
 
   <div class="calendar-header">
     <button @click="setMonthEarlier">
