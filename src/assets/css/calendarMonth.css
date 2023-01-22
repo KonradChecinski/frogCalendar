@@ -1,0 +1,120 @@
+.top-nav-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+    padding: 5px;
+    background-color: #0C9ED5;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgb(84, 84, 84);
+
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.header-text {
+    text-align: center;
+}
+
+button {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+}
+
+.calendar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex: 3;
+    border-bottom: 1px solid rgb(84, 84, 84);
+}
+
+.day {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    text-align: center;
+    flex-direction: column;
+    flex: 3;
+
+    border: 1px solid transparent;
+}
+
+.day-name {
+    color: #0C9ED5;
+}
+
+.day-name,
+.row-info {
+    flex: 1;
+}
+
+.date>span {
+    font-size: 12px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.info {
+    height: 100%;
+}
+
+.weather {
+    margin-bottom: 5px;
+}
+
+
+
+.out-of-month {
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    opacity: 0.3;
+}
+
+.choose-day {
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+/* .current-day {
+    
+} */
+.day.current-day>.date>span {
+    background-color: rgb(189, 189, 189);
+    padding: 5px;
+    border-radius: 8px;
+    color: rgb(44, 44, 44);
+}
+
+.add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    left: 80%;
+    right: 7%;
+    top: 90%;
+    background: #0C9ED5;
+    border-radius: 8px;
+
+
+}
+
+.plus {
+    position: relative;
+    font-size: 3rem;
+    color: black;
+    bottom: 7%;
+}

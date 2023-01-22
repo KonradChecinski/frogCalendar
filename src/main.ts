@@ -5,7 +5,7 @@ import VueAxios from 'vue-axios'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSun, faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight, faSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 
 import App from './App.vue'
@@ -24,7 +24,7 @@ app.use(VueAxios, axios)
 app.provide('axios', app.config.globalProperties.axios)
 
 
-library.add(faSun, faArrowLeftLong, faArrowRightLong)
+library.add(faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight)
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')

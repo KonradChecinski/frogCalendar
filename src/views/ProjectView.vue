@@ -10,22 +10,18 @@ const getDate = usefetch(pinia)
 </script>
 
 <template>
-  <div class="calendar30">
-    <CalendarMonth>
-      Kalendarz30
-    </CalendarMonth>
+  <div class="app-views-container">
+    <CalendarMonth />
     <!-- <CalendarWeek>
       Kalendarz2tyg
     </CalendarWeek> -->
   </div>
 </template>
 
-
 <style scoped>
-.calendar30{
+.app-views-container {
   display: flex;
   flex-direction: column;
-  flex:1
+  flex: 1;
 }
-
 </style>
