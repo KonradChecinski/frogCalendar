@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useLoggedStore = defineStore('counter', () => {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   return { isLoggedIn }
 })
