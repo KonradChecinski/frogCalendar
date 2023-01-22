@@ -2,7 +2,7 @@ import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useLoggedStore = defineStore('loggedIn', () => {
-  const isLoggedIn = ref(false);
+  const isLoggedIn = ref(true);
   const APIKey = ref();
 
   watch(APIKey, ()=>{
