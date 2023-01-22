@@ -5,7 +5,7 @@
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
     color: black;
-    font-weight: bolder;
+    /* font-weight: bold; */
     cursor: pointer;
     display: block;
     font-family: -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
