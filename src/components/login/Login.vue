@@ -17,10 +17,12 @@ function login(e: any) {
   .then(
     (value: any) => {
       console.log(value)
-      LoggedStore.isLoggedIn = true;
       LoggedStore.APIKey = value.token;
+      LoggedStore.username = value.user.name;
+      LoggedStore.email = value.user.email;
+      LoggedStore.isLoggedIn = true;
 
-      router.replace({ name: 'home', query: { redirect: '/path' }})
+      router.replace('/');
     },
     (error) =>{
       let result: any = error;

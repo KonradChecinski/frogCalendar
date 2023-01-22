@@ -2,17 +2,28 @@ import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useLoggedStore = defineStore('loggedIn', () => {
-  const isLoggedIn = ref(true);
+  const isLoggedIn = ref(false);
   const APIKey = ref();
+
+  const username = ref();
+  const email = ref();
 
   watch(APIKey, ()=>{
     if (isLocalStorageAvailable()) {
       localStorage.setItem('APIKey', APIKey.value)
     }
-    console.log('change');
   })
-
-  return { isLoggedIn, APIKey }
+  watch(username, ()=>{
+    if (isLocalStorageAvailable()) {
+      localStorage.setItem('username', username.value)
+    }
+  })
+  watch(email, ()=>{
+    if (isLocalStorageAvailable()) {
+      localStorage.setItem('email', email.value)
+    }
+  })
+  return { isLoggedIn, APIKey, username, email }
 })
 
 

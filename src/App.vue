@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { routerKey, RouterLink, RouterView, useRouter } from 'vue-router'
 import { useLoggedStore } from './stores/LoggedIn';
+import drawerMenu from "@/components/drawerMenu.vue";
+
 import router from './router';
 
 const LoggedStore = useLoggedStore();
@@ -8,6 +10,8 @@ const LoggedStore = useLoggedStore();
 if(isLocalStorageAvailable()){
     if(localStorage.getItem('APIKey') !== null){
       LoggedStore.APIKey = localStorage.getItem('APIKey')
+      LoggedStore.email = localStorage.getItem('email')
+      LoggedStore.username = localStorage.getItem('username')
       LoggedStore.isLoggedIn = true;
     } 
 }
@@ -17,7 +21,6 @@ router.beforeEach((to, from, next) => {
         next('/');
     }
     else{
-        console.log(LoggedStore.isLoggedIn);
         if (to.matched.some(record => record.meta.requiresAuth)) {
             if (!LoggedStore.isLoggedIn) {
                 next({ name: 'Login' })
@@ -44,104 +47,11 @@ function isLocalStorageAvailable(){
 
 
 </script>
-<!-- 
+
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" ala="kupiła kota"/>
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/project">Calendar</RouterLink>
-      </nav>
-    </div>
-  </header>
-
   <RouterView />
-</template> -->
-
-<template>
-  <header>
-    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="12" height="12" /> -->
-
-    <div class="wrapper">
-      <!-- <HelloWorld msg="You did it!" ala="kupiła kota"/> -->
-
-      <!-- <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/project">Calendar</RouterLink>
-      </nav> -->
-    </div>
-  </header>
-<RouterView />
-  
+  <drawerMenu />
 </template>
 
 <style scoped>
-/* header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-} */
-
-/* @media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-} */
-
 </style>

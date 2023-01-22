@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useOptionsStore } from "@/stores/Options";
 import { reactive, computed, watch } from "vue";
+
+const OptionsStore = useOptionsStore();
+
 
 // defineProps<{
 //   menuOpen: boolean;
@@ -58,8 +62,17 @@ watch(Calendar.update, async () => {
   Calendar.table.length = 0;
   setCalendarTable();
 });
+
+watch(OptionsStore.WeatherUpdate, () => {
+  Calendar.update.count++;
+});
+watch(OptionsStore.HolidaysUpdate, () => {
+  Calendar.update.count++;
+});
 Calendar.table.pop();
 Calendar.update.count++;
+
+
 
 const actualMonth = computed(() => {
   return Calendar.chooseDate.getMonth();
@@ -112,7 +125,7 @@ function setCalendarTable() {
 
       let id = date.getFullYear() + "" + date.getMonth() + date.getDate();
 
-      let showWeather =
+      let showWeather = OptionsStore.Weather &&
         date >= Calendar.today &&
         date <
           new Date(
@@ -122,7 +135,7 @@ function setCalendarTable() {
           ); //getWeekOfYear(date) == getWeekOfYear(Calendar.today)
       let outOfMonth = date.getMonth() != Calendar.chooseDate.getMonth();
       let currentDay = date.toDateString() == Calendar.today.toDateString();
-      let chooseDay = date.toDateString() == Calendar.today.toDateString(); //date.getDate() == Calendar.chooseDate.getDate();
+      let chooseDay = date.toDateString() == Calendar.chooseDateDay.date.toDateString(); //date.getDate() == Calendar.chooseDate.getDate();
 
       let resultDate = new Day(
         id,
@@ -235,11 +248,14 @@ const getWeekOfYear = function (date: Date) {
         <div class="date">
           <span>{{ day.date.getDate() }}</span>
         </div>
-        <div class="info"></div>
+
         <div class="weather" v-if="day.showWeather">
-          <font-awesome-icon icon="fa-solid fa-sun" />
+          <img src="@/assets/icons/weather/day.svg" alt="Pogoda" class="weather-icon">
         </div>
         <div class="weather" v-else></div>
+
+        <div class="info"></div>
+        
       </div>
     </div>
   </div>

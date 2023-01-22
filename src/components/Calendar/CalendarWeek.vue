@@ -50,7 +50,7 @@ function getDateXDaysAway(numOfDays: number) {
   return daysAgo;
 }
 
-for (let i = Calendar.today.getDate()-howManyDaysBefore() - 1; i < Calendar.today.getDate() + howManyDaysAfter() + 7; i+=7) {
+for (let i = Calendar.today.getDate()-howManyDaysBefore() - 1; i < Calendar.today.getDate() + howManyDaysAfter(); i+=7) {
     let array = []
     for(let j=i; j<i+7; j++){
         array.push(getDateXDaysAway(j))
