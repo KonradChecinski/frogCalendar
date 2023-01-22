@@ -1,26 +1,37 @@
 <script setup lang="ts">
 import Button from "@/components/Button.vue";
-import { reactive } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { usefetch } from '@/stores/fetch';
 import { createPinia } from 'pinia';
-// defineProps<{
-//   title: { type: string; required: true };
-// }>();
+
 const state = reactive({ username: "", password: "" });
 
 const pinia = createPinia();
-const getDate = usefetch(pinia)
+const getDate = usefetch(pinia);
 
 
 
-function login() {
-  console.log('Button is clicked');
-  getDate.fetchData('/');
+function login(e: any) {
+  e.preventDefault();
+
+  getDate.fetchData('/auth/login', 'POST', {'email': state.username, 'password': state.password})
+  .then(
+    (value) => {
+      console.log(value)
+    },
+    (error) =>{
+      let result: any = error;
+      result.then((res: any) => {
+        console.log('error')
+        console.log(res)
+      })
+    }
+  );
 }
 </script>
 
 <template>
-  <form action="" method="post">
+  <form action="" method="">
     <div class="input-container">
       <div class="img-container">
         <img
