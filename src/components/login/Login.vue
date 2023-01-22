@@ -20,8 +20,6 @@ function login(e: any) {
       LoggedStore.isLoggedIn = true;
       LoggedStore.APIKey = value.token;
 
-      console.log(LoggedStore.isLoggedIn);
-
       router.replace({ name: 'home', query: { redirect: '/path' }})
     },
     (error) =>{

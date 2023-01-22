@@ -13,24 +13,18 @@ if(isLocalStorageAvailable()){
 }
 
 router.beforeEach((to, from, next) => {
-    console.log('dziala');
     if(LoggedStore.isLoggedIn && to.matched.some(record => record.path == '/login')){
-        console.log('tu');
         next('/');
     }
     else{
-        console.log('tutaj');
         console.log(LoggedStore.isLoggedIn);
         if (to.matched.some(record => record.meta.requiresAuth)) {
             if (!LoggedStore.isLoggedIn) {
-                console.log('tutaj2');
                 next({ name: 'Login' })
             } else {
-                console.log('tutaj3');
                 next();
             }
         } else {
-            console.log('tutaj4');
             next()
         }
     }
