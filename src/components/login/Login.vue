@@ -1,31 +1,26 @@
 <script setup lang="ts">
 import Button from "@/components/Button.vue";
 import { reactive } from "vue";
-import { usefetch } from '@/stores/fetch';
+import { useFetchStore } from '@/stores/fetch';
 import { useLoggedStore } from '@/stores/LoggedIn'
-import { createPinia } from 'pinia';
 import router from '@/router'
-
-console.log('hej');
 
 const state = reactive({ username: "", password: "" });
 
-const pinia = createPinia();
-const getDate = usefetch(pinia);
-const LoggedIn = useLoggedStore(pinia);
-
+const LoggedStore = useLoggedStore();
+const FetchStore = useFetchStore();
 
 function login(e: any) {
   e.preventDefault();
-
-  getDate.fetchData('/auth/login', 'POST', {'email': state.username, 'password': state.password})
+  
+  FetchStore.fetchData('/auth/login', 'POST', {'email': state.username, 'password': state.password})
   .then(
     (value: any) => {
       console.log(value)
-      LoggedIn.isLoggedIn = true;
-      LoggedIn.APIKey = value.token;
+      LoggedStore.isLoggedIn = true;
+      LoggedStore.APIKey = value.token;
 
-      console.log(LoggedIn.isLoggedIn);
+      console.log(LoggedStore.isLoggedIn);
 
       router.replace({ name: 'home', query: { redirect: '/path' }})
     },

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 
-export const usefetch = defineStore('fetch', () => {
+export const useFetchStore = defineStore('fetch', () => {
   async function fetchData(path: string, method: string, body: {} = {}) {
     return new Promise( (resolve, reject) =>{
       const mainPath = 'http://dom.webitup.pl/api';
