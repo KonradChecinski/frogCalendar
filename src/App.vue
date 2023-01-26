@@ -50,7 +50,7 @@ function isLocalStorageAvailable(){
 
 <template>
   <RouterView />
-  <drawerMenu />
+  <drawerMenu v-if="router.currentRoute.value.path != `/login` && router.currentRoute.value.path != `/register`"/>
 </template>
 
 <style scoped>
