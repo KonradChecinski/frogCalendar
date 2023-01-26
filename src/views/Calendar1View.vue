@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import CalendarMonth from "@/components/Calendar/CalendarMonth.vue";
+import CalendarDay from "@/components/Calendar/CalendarDay.vue";
 </script>
 
 <template>
   <div class="app-views-container">
-    <CalendarMonth/>
+    <CalendarDay />
   </div>
 </template>
 

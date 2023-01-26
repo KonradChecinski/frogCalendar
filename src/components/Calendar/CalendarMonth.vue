@@ -4,7 +4,6 @@ import { reactive, computed, watch } from "vue";
 
 const OptionsStore = useOptionsStore();
 
-
 // defineProps<{
 //   menuOpen: boolean;
 // }>();
@@ -48,7 +47,7 @@ const monthNames = [
   "Listopad",
   "Grudzień",
 ];
-const dayNames = ["Pn", "Wt", "Śr", "Czw", "Pi", "So", "Nd"];
+const dayNames = ["Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
 
 let Calendar = reactive({
   today: new Date(),
@@ -71,8 +70,6 @@ watch(OptionsStore.HolidaysUpdate, () => {
 });
 Calendar.table.pop();
 Calendar.update.count++;
-
-
 
 const actualMonth = computed(() => {
   return Calendar.chooseDate.getMonth();
@@ -125,7 +122,8 @@ function setCalendarTable() {
 
       let id = date.getFullYear() + "" + date.getMonth() + date.getDate();
 
-      let showWeather = OptionsStore.Weather &&
+      let showWeather =
+        OptionsStore.Weather &&
         date >= Calendar.today &&
         date <
           new Date(
@@ -135,7 +133,8 @@ function setCalendarTable() {
           ); //getWeekOfYear(date) == getWeekOfYear(Calendar.today)
       let outOfMonth = date.getMonth() != Calendar.chooseDate.getMonth();
       let currentDay = date.toDateString() == Calendar.today.toDateString();
-      let chooseDay = date.toDateString() == Calendar.chooseDateDay.date.toDateString(); //date.getDate() == Calendar.chooseDate.getDate();
+      let chooseDay =
+        date.toDateString() == Calendar.chooseDateDay.date.toDateString(); //date.getDate() == Calendar.chooseDate.getDate();
 
       let resultDate = new Day(
         id,
@@ -250,12 +249,15 @@ const getWeekOfYear = function (date: Date) {
         </div>
 
         <div class="weather" v-if="day.showWeather">
-          <img src="@/assets/icons/weather/day.svg" alt="Pogoda" class="weather-icon">
+          <img
+            src="@/assets/icons/weather/day.svg"
+            alt="Pogoda"
+            class="weather-icon"
+          />
         </div>
         <div class="weather" v-else></div>
 
         <div class="info"></div>
-        
       </div>
     </div>
   </div>
