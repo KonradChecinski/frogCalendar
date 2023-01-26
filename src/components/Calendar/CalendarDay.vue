@@ -18,12 +18,15 @@ const monthNames = [
   "Listopad",
   "Grudzień",
 ];
-const dayNames = ["Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
-// TRZEBA BĘDZE ZEROWAĆ TEN LICZNIK ZA KAŻDYM RAZEM JAK SIĘ ZMIENI TYDZIEŃ CHYBA
-let dayNameCounter: number = 0;
-const incrementDayNameCounter = () => {
-  dayNameCounter++;
-};
+const dayNames = [
+  "Poniedziałek",
+  "Wtorek",
+  "Środa",
+  "Czwartek",
+  "Piątek",
+  "Sobota",
+  "Niedziela",
+];
 
 let Calendar = reactive({
   today: new Date(),
@@ -84,46 +87,37 @@ for (
 
 <template>
   <div class="calendar-header">
-    <!-- KONRADO ZANIM ZROBISZ TE PRZYCISKI TO SPÓJRZ NA LINIĘ 22 -->
     <button>
       <font-awesome-icon icon="fa-solid fa-chevron-left" />
     </button>
     <div class="header-text">
-      <p style="color: #0c9ed5">TYDZIEŃ</p>
-      <h2>{{ monthNames[actualMonth] + " " + actualYear }}</h2>
+      <p style="color: #0c9ed5">DZIEŃ</p>
+      <h2>
+        {{
+          Calendar.today.getDate() +
+          " " +
+          monthNames[actualMonth] +
+          " " +
+          actualYear
+        }}
+      </h2>
+      <h3>{{ dayNames[Calendar.today.getDay() - 1] }}</h3>
     </div>
     <button>
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
     </button>
   </div>
   <div class="calendar">
-    <div class="column" v-for="array in Calendar.table">
-      <div
-        class="day"
-        :class="{
-          'out-of-month': day.getMonth() != Calendar.today.getMonth(),
-          'current-day': day.getDate() == Calendar.today.getDate(),
-        }"
-        v-for="day in array"
-      >
-        <div class="day-container">
-          <div class="day-name">{{ dayNames[dayNameCounter] }}</div>
-          {{ incrementDayNameCounter() }}
-          <div class="date">{{ day.getDate() }}</div>
-        </div>
-        <div class="info-container">
-          <div class="weather">
-            <font-awesome-icon class="weather-icon" icon="fa-solid fa-sun" />
-            <p class="temp">10°/<span style="color: #0c9ed5">-2°</span></p>
-          </div>
-          <div class="holiday">
-            <p class="holiday-text">Dzień Pieroga</p>
-          </div>
-          <div class="task">
-            <p class="task-name">Nazwa zadania</p>
-          </div>
-        </div>
-      </div>
+    <div class="holiday">
+      <p class="holiday-text">Dzień Pieroga</p>
+    </div>
+    <div class="weather">
+      <font-awesome-icon class="weather-icon" icon="fa-solid fa-sun" />
+      <p class="temp">10°/<span style="color: #0c9ed5">-2°</span></p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
     </div>
   </div>
 
@@ -150,97 +144,54 @@ button {
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-.column {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.day {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  text-align: center;
-  flex: 1;
-  border-bottom: 2px rgba(255, 255, 255, 0.15) solid;
-}
-.day-container {
-  display: flex;
-  flex-direction: column;
-  width: 40px;
-}
-.date {
-  font-size: 18px;
-  text-align: left;
-  padding-left: 5px;
-}
-.day-name {
-  text-align: start;
-  padding-left: 5px;
-  color: #0c9ed5;
-}
-.info-container {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-start;
   align-items: center;
+  overflow-y: auto;
 }
+
 .holiday {
+  margin-top: 15px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 5px;
-  border: 2px rgba(255, 255, 255, 0.15) solid;
-  padding: 6px;
-  height: 80%;
-  max-width: 70%;
-  max-height: 70px;
 }
 .holiday-text {
-  font-size: 16px;
+  font-size: 22px;
   color: #0c9ed5;
   font-weight: bold;
+  margin-bottom: 10px;
 }
 .weather {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 95%;
+  padding: 5px 30px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 5px;
   border: 2px rgba(255, 255, 255, 0.15) solid;
-  padding: 10px 5px 0px 5px;
-  height: 80%;
-  max-height: 70px;
+  margin-bottom: 10px;
 }
 .weather-icon {
-  transform: scale(1.7);
+  transform: scale(2.5);
 }
 .temp {
-  font-size: 1.25rem;
+  font-size: 2rem;
 }
 .task {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 4px;
+  width: 95%;
+  padding: 5px;
   background: rgba(255, 255, 255, 0.15);
   border: 2px #0c9ed5 solid;
   border-radius: 5px;
-  height: 80%;
-  max-height: 70px;
+  margin-bottom: 10px;
 }
 .task-name {
-  font-size: 16px;
+  font-size: 22px;
   font-weight: bold;
 }
-.out-of-month {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-.current-day {
-  box-sizing: border-box;
-  border: 2px #0c9ed5 solid;
+.task-time {
+  font-style: italic;
 }
 .add-button {
   display: flex;

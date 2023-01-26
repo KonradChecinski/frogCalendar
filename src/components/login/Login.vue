@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Button from "@/components/Button.vue";
 import { reactive } from "vue";
-import { useFetchStore } from '@/stores/fetch';
-import { useLoggedStore } from '@/stores/LoggedIn'
-import router from '@/router'
+import { useFetchStore } from "@/stores/fetch";
+import { useLoggedStore } from "@/stores/LoggedIn";
+import router from "@/router";
 
 const state = reactive({ username: "", password: "" });
 
@@ -12,23 +12,25 @@ const FetchStore = useFetchStore();
 
 function login(e: any) {
   e.preventDefault();
-  
-  FetchStore.fetchData('/auth/login', 'POST', {'email': state.username, 'password': state.password})
-  .then(
+
+  FetchStore.fetchData("/auth/login", "POST", {
+    email: state.username,
+    password: state.password,
+  }).then(
     (value: any) => {
-      console.log(value)
+      console.log(value);
       LoggedStore.APIKey = value.token;
       LoggedStore.username = value.user.name;
       LoggedStore.email = value.user.email;
       LoggedStore.isLoggedIn = true;
 
-      router.replace('/');
+      router.replace("/");
     },
-    (error) =>{
+    (error) => {
       let result: any = error;
       result.then((res: any) => {
-        console.log(res)
-      })
+        console.log(res);
+      });
     }
   );
 }
@@ -73,11 +75,14 @@ function login(e: any) {
     </div>
 
     <div class="button-container">
-      <Button title="Zaloguj się" @click="login"/>
+      <Button title="Zaloguj się" @click="login" />
     </div>
 
     <p class="register-p">
-      Nie masz konta? <span class="register-span"><RouterLink to="/register">Zarejestruj się</RouterLink></span>
+      Nie masz konta?
+      <span class="register-span"
+        ><RouterLink to="/register">Zarejestruj się</RouterLink></span
+      >
     </p>
 
     <!-- <div class="container" style="background-color:#f1f1f1">
