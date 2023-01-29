@@ -3,6 +3,16 @@
 //   msg: string
 // }>()
 import { reactive, computed } from "vue";
+import router from "@/router";
+
+let date = new Date();
+
+if(router.currentRoute.value.query.date != undefined){
+  let query = router.currentRoute.value.query.date;
+  date = new Date(JSON.parse(query))
+}
+
+
 
 const monthNames = [
   "Styczeń",
@@ -33,7 +43,8 @@ let Calendar = reactive({
   table: [[new Date()]],
 });
 Calendar.table.pop();
-console.log(Calendar.today);
+// console.log(Calendar.today);
+Calendar.today = date
 const actualMonth = computed(() => {
   return Calendar.today.getMonth();
 });

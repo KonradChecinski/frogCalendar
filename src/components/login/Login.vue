@@ -13,7 +13,7 @@ const FetchStore = useFetchStore();
 function login(e: any) {
   e.preventDefault();
 
-  FetchStore.fetchData("/auth/login", "POST", {
+  FetchStore.fetchDataFromFrogAPI("/auth/login", "POST", {
     email: state.username,
     password: state.password,
   }).then(

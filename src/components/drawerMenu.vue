@@ -10,9 +10,9 @@ const FetchStore = useFetchStore();
 const OptionsStore = useOptionsStore();
 
 if (isLocalStorageAvailable()) {
-  console.log(localStorage.getItem('option.weather'));
-OptionsStore.Weather = localStorage.getItem('option.weather') == 'true' ? true : false;
-OptionsStore.Holidays = localStorage.getItem('option.holidays') == 'true' ? true : false;
+  OptionsStore.Weather = localStorage.getItem('option.weather') == 'true' ? true : false;
+  OptionsStore.Holidays = localStorage.getItem('option.holidays') == 'true' ? true : false;
+  OptionsStore.Events = localStorage.getItem('option.events') == 'true' ? true : false;
 }
 
 function logout(e: any) {
@@ -90,6 +90,14 @@ function isLocalStorageAvailable(){
           >Toggle</label
         >
         <p>Święta</p>
+      </div>
+      <div class="row">
+        <input type="checkbox" id="switch3" style="display: none" :checked="OptionsStore.Events" @click="() => {OptionsStore.Events = !OptionsStore.Events}"/><label
+          for="switch3"
+          class="toggle"
+          >Toggle</label
+        >
+        <p>Wydarzenia</p>
       </div>
     </div>
 

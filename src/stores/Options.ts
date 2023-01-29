@@ -4,10 +4,12 @@ import { defineStore } from 'pinia'
 export const useOptionsStore = defineStore('Options', () => {
   const Weather = ref();
   const Holidays = ref();
+  const Events = ref();
 
 
   const WeatherUpdate = reactive({count: 0});
   const HolidaysUpdate = reactive({count: 0});
+  const EventsUpdate = reactive({count: 0});
 
   watch(Weather, ()=>{
     if (isLocalStorageAvailable()) {
@@ -25,8 +27,16 @@ export const useOptionsStore = defineStore('Options', () => {
     }
     HolidaysUpdate.count++;
   })
+  watch(Events, ()=>{
+    if (isLocalStorageAvailable()) {
+      let str = '';
+      Events.value == true ? str='true' : str='false';
+      localStorage.setItem('option.events', str);
+    }
+    EventsUpdate.count++;
+  })
 
-  return { Weather, WeatherUpdate, Holidays, HolidaysUpdate  }
+  return { Weather, WeatherUpdate, Holidays, HolidaysUpdate, Events, EventsUpdate }
 })
 
 

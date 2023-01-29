@@ -77,8 +77,22 @@ button {
   margin-bottom: 5px;
 }
 .weather-icon {
-  width: 100%;
+  /* width: 100%;
+  height: 100%; */
+  width: auto;
+}
+.event{
   height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+.event > div{
+  width: 10px;
+  height: 10px;
+  background-color: #0c9ed5;
+  border-radius: 100%;
 }
 
 .out-of-month {

@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import router from "@/router";
+import { useFetchStore } from "@/stores/fetch";
 import { useOptionsStore } from "@/stores/Options";
 import { reactive, computed, watch } from "vue";
 
 const OptionsStore = useOptionsStore();
+const FetchStore = useFetchStore();
 
 // defineProps<{
 //   menuOpen: boolean;
@@ -12,6 +15,7 @@ class Day {
   id: string;
   date: Date;
   showWeather: Boolean;
+  showEvent: Boolean;
   outOfMonth: Boolean;
   currentDay: Boolean;
   chooseDay: Boolean;
@@ -20,6 +24,7 @@ class Day {
     id: string,
     date: Date,
     showWeather: boolean,
+    showEvent: boolean,
     outOfMonth: Boolean,
     currentDay: Boolean,
     chooseDay: Boolean
@@ -27,6 +32,7 @@ class Day {
     this.id = id;
     this.date = date;
     this.showWeather = showWeather;
+    this.showEvent = showEvent;
     this.outOfMonth = outOfMonth;
     this.currentDay = currentDay;
     this.chooseDay = chooseDay;
@@ -52,8 +58,8 @@ const dayNames = ["Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
 let Calendar = reactive({
   today: new Date(),
   chooseDate: new Date(),
-  chooseDateDay: new Day("0", new Date(), false, false, false, false),
-  table: [[new Day("0", new Date(), false, false, false, false)]],
+  chooseDateDay: new Day("0", new Date(), false, false, false, false, false),
+  table: [[new Day("0", new Date(), false, false, false, false, false)]],
   update: { count: 0 },
 });
 
@@ -66,6 +72,9 @@ watch(OptionsStore.WeatherUpdate, () => {
   Calendar.update.count++;
 });
 watch(OptionsStore.HolidaysUpdate, () => {
+  Calendar.update.count++;
+});
+watch(OptionsStore.EventsUpdate, () => {
   Calendar.update.count++;
 });
 Calendar.table.pop();
@@ -131,6 +140,13 @@ function setCalendarTable() {
             Calendar.today.getMonth(),
             Calendar.today.getDate() + 14
           ); //getWeekOfYear(date) == getWeekOfYear(Calendar.today)
+
+
+          
+      let showEvent = OptionsStore.Events && FetchStore.Events.find((obj: any) => {
+          return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
+        });
+
       let outOfMonth = date.getMonth() != Calendar.chooseDate.getMonth();
       let currentDay = date.toDateString() == Calendar.today.toDateString();
       let chooseDay =
@@ -140,6 +156,7 @@ function setCalendarTable() {
         id,
         date,
         showWeather,
+        showEvent,
         outOfMonth,
         currentDay,
         chooseDay
@@ -155,7 +172,7 @@ function setMonthEarlier() {
   Calendar.chooseDate = new Date(
     Calendar.chooseDate.getFullYear(),
     Calendar.chooseDate.getMonth() - 1,
-    Calendar.chooseDate.getDate()
+    1
   );
   Calendar.update.count++;
 }
@@ -163,7 +180,7 @@ function setMonthLater() {
   Calendar.chooseDate = new Date(
     Calendar.chooseDate.getFullYear(),
     Calendar.chooseDate.getMonth() + 1,
-    Calendar.chooseDate.getDate()
+    1
   );
   Calendar.update.count++;
 }
@@ -187,6 +204,7 @@ function changeSelection(day: Day) {
     else setMonthLater();
   }
 
+  if(Calendar.chooseDateDay == day) router.push({path: "/cal1", query: {date: JSON.stringify(day.date)}});
   Calendar.chooseDateDay = day;
 }
 
@@ -248,16 +266,19 @@ const getWeekOfYear = function (date: Date) {
           <span>{{ day.date.getDate() }}</span>
         </div>
 
-        <div class="weather" v-if="day.showWeather">
+        <div class="weather">
           <img
+            v-if="day.showWeather"
             src="@/assets/icons/weather/day.svg"
             alt="Pogoda"
             class="weather-icon"
           />
         </div>
-        <div class="weather" v-else></div>
+        <div class="event">
+          <div v-if="day.showEvent"></div>
+        </div>
 
-        <div class="info"></div>
+        <!-- <div class="info"></div> -->
       </div>
     </div>
   </div>
