@@ -44,7 +44,7 @@ function isLocalStorageAvailable(){
   }
 }
 
-function changeChecked(){
+function closeDrawer(){
  drawerToggle.value.checked = false;
 }
 </script>
@@ -53,7 +53,7 @@ function changeChecked(){
     <input type="checkbox" id="drawer-toggle" name="drawer-toggle" ref="drawerToggle" />
   <label for="drawer-toggle" id="drawer-toggle-label"></label>
   <header></header>
-  <div class="background" @click="changeChecked">  </div>
+  <div class="background" @click="closeDrawer">  </div>
     <nav id="drawer">
     <div class="user-info">
       <p class="uname">{{ LoggedStore.username }}</p>
@@ -63,19 +63,19 @@ function changeChecked(){
     <div class="navigation">
       <p class="label-text">Widok</p>
       <div class="row">
-        <RouterLink to="/cal1">
+        <RouterLink to="/cal1" @click="closeDrawer();">
           <img src="@/assets/icons/day_icon.png" />
           <p>Dzień</p>
         </RouterLink>
       </div>
       <div class="row">
-        <RouterLink to="/cal7">
+        <RouterLink to="/cal7" @click="closeDrawer();">
           <img src="@/assets/icons/week_icon.png" />
           <p>Tydzień</p>
         </RouterLink>
       </div>
       <div class="row">
-        <RouterLink to="/cal30">
+        <RouterLink to="/cal30" @click="closeDrawer();">
         <img src="@/assets/icons/month_icon.png" />
         <p>Miesiąc</p>
       </RouterLink>
