@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import router from "@/router";
 import { useFetchStore } from "@/stores/fetch";
+import useModal from "@/stores/modal";
 import { useOptionsStore } from "@/stores/Options";
 import { reactive, computed, watch } from "vue";
+import WelcomeItem from "../WelcomeItem.vue";
 
 const OptionsStore = useOptionsStore();
 const FetchStore = useFetchStore();
@@ -147,7 +149,6 @@ function setCalendarTable() {
         let weather: any = FetchStore.Weather.find((obj: any) => {
           return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
         })
-console.log(weather);
         showWeather = showWeather && weather;
           
       let showEvent = OptionsStore.Events && FetchStore.Events.find((obj: any) => {
@@ -239,7 +240,70 @@ const getWeekOfYear = function (date: Date) {
     Math.ceil((firstThursday - target.valueOf()) / (7 * 24 * 3600 * 1000)) + 1
   );
 };
+
+
+
+
+
+
+// no need to import defineEmits
+const emit = defineEmits(["update:modelValue"]);
+
+// // when someVar changes, it will update the reference passed via v-model
+// watch(someVar, (value) => {
+//   emit("update:modelValue", value);
+// });
+
+
+const modal = useModal();
+  function handleOnClickOpenModal() {
+    modal.open(WelcomeItem, [
+      {
+        label: "Save",
+        callback: (dataFromView) => {
+          console.log(dataFromView);
+          modal.close();
+        },
+      },
+    ]);
+  }
+
+
+
+
+
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <template>
   <!-- <div class="top-nav-bar">
@@ -297,7 +361,7 @@ const getWeekOfYear = function (date: Date) {
     </div>
   </div>
 
-  <div class="add-button"><p class="plus">+</p></div>
+  <div class="add-button" @click="handleOnClickOpenModal"><p class="plus">+</p></div>
 </template>
 
 <style scoped src="@/assets/css/calendarMonth.css"></style>

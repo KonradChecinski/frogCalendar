@@ -4,6 +4,7 @@ import { useLoggedStore } from "./stores/LoggedIn";
 import drawerMenu from "@/components/drawerMenu.vue";
 
 import router from "./router";
+import Modal from "./components/Modal/modal.vue";
 
 const LoggedStore = useLoggedStore();
 
@@ -50,6 +51,7 @@ function isLocalStorageAvailable() {
 <template>
   <RouterView />
   <drawerMenu v-if="LoggedStore.isLoggedIn" />
+  <Modal />
 </template>
 
 <style scoped></style>
