@@ -7,10 +7,10 @@
             @click="modal.close()"
             >✕</label
           >
-  
+          <div>{{ modal.date?.getDate() + '.' + modal.date?.getMonth() + '.' + modal.date?.getFullYear() }}</div>
           <component :is="view" v-model="model"></component>
           
-          <div class="modal-action">
+          <!-- <div class="modal-action">
             <button
               v-for="action in actions"
               class="btn"
@@ -18,7 +18,7 @@
             >
               {{ action.label }}
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

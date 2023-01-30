@@ -3,11 +3,15 @@ import router from "@/router";
 import { useFetchStore } from "@/stores/fetch";
 import { useLoggedStore } from "@/stores/LoggedIn";
 import { useOptionsStore } from "@/stores/Options";
+import { ref } from "vue";
 import Button from "./Button.vue";
+
+const drawerToggle:any = ref(null)
 
 const LoggedStore = useLoggedStore();
 const FetchStore = useFetchStore();
 const OptionsStore = useOptionsStore();
+
 
 if (isLocalStorageAvailable()) {
   OptionsStore.Weather = localStorage.getItem('option.weather') == 'true' ? true : false;
@@ -39,13 +43,18 @@ function isLocalStorageAvailable(){
       return false;
   }
 }
+
+function changeChecked(){
+ drawerToggle.value.checked = false;
+}
 </script>
 
 <template>
-  <input type="checkbox" id="drawer-toggle" name="drawer-toggle" />
+    <input type="checkbox" id="drawer-toggle" name="drawer-toggle" ref="drawerToggle" />
   <label for="drawer-toggle" id="drawer-toggle-label"></label>
   <header></header>
-  <nav id="drawer">
+  <div class="background" @click="changeChecked">  </div>
+    <nav id="drawer">
     <div class="user-info">
       <p class="uname">{{ LoggedStore.username }}</p>
       <p class="email">{{ LoggedStore.email }}</p>
@@ -108,6 +117,33 @@ function isLocalStorageAvailable(){
     <!-- <div id="rectangle1"></div>
     <div id="rectangle2"></div> -->
   </nav>
+
+  
+  
 </template>
 
 <style scoped src="@/assets/css/drawerMenu.css"></style>
+<style>
+.background{
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+input:checked ~ .background{
+  display: flex;
+}
+.drawer, #drawer-toggle, #drawer-toggle-label, nav{
+  z-index: 102 !important;
+}
+header{
+  z-index: 101 !important;
+}
+
+</style>

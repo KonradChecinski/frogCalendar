@@ -8,7 +8,7 @@ import router from "@/router";
 let date = new Date();
 
 if(router.currentRoute.value.query.date != undefined){
-  let query = router.currentRoute.value.query.date;
+  let query: any = router.currentRoute.value.query.date;
   date = new Date(JSON.parse(query))
 }
 

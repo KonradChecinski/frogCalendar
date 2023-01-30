@@ -257,14 +257,16 @@ const emit = defineEmits(["update:modelValue"]);
 
 const modal = useModal();
   function handleOnClickOpenModal() {
-    modal.open(WelcomeItem, [
+    modal.open(WelcomeItem,
+    Calendar.chooseDateDay.date,
+     [
       {
-        label: "Save",
-        callback: (dataFromView) => {
-          console.log(dataFromView);
-          modal.close();
-        },
-      },
+        // label: "Save",
+        // callback: (dataFromView) => {
+        //   console.log(dataFromView);
+        //   modal.close();
+        // },
+      }
     ]);
   }
 
