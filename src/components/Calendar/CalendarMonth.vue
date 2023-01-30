@@ -15,6 +15,7 @@ class Day {
   id: string;
   date: Date;
   showWeather: Boolean;
+  weather: object;
   showEvent: Boolean;
   outOfMonth: Boolean;
   currentDay: Boolean;
@@ -24,6 +25,7 @@ class Day {
     id: string,
     date: Date,
     showWeather: boolean,
+    weather: object,
     showEvent: boolean,
     outOfMonth: Boolean,
     currentDay: Boolean,
@@ -32,6 +34,7 @@ class Day {
     this.id = id;
     this.date = date;
     this.showWeather = showWeather;
+    this.weather = weather;
     this.showEvent = showEvent;
     this.outOfMonth = outOfMonth;
     this.currentDay = currentDay;
@@ -58,8 +61,8 @@ const dayNames = ["Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
 let Calendar = reactive({
   today: new Date(),
   chooseDate: new Date(),
-  chooseDateDay: new Day("0", new Date(), false, false, false, false, false),
-  table: [[new Day("0", new Date(), false, false, false, false, false)]],
+  chooseDateDay: new Day("0", new Date(), false, {}, false, false, false, false),
+  table: [[new Day("0", new Date(), false, {}, false, false, false, false)]],
   update: { count: 0 },
 });
 
@@ -138,10 +141,14 @@ function setCalendarTable() {
           new Date(
             Calendar.today.getFullYear(),
             Calendar.today.getMonth(),
-            Calendar.today.getDate() + 14
+            Calendar.today.getDate() + 13
           ); //getWeekOfYear(date) == getWeekOfYear(Calendar.today)
 
-
+        let weather: any = FetchStore.Weather.find((obj: any) => {
+          return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
+        })
+console.log(weather);
+        showWeather = showWeather && weather;
           
       let showEvent = OptionsStore.Events && FetchStore.Events.find((obj: any) => {
           return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
@@ -156,6 +163,7 @@ function setCalendarTable() {
         id,
         date,
         showWeather,
+        weather ?? {},
         showEvent,
         outOfMonth,
         currentDay,
@@ -206,6 +214,12 @@ function changeSelection(day: Day) {
 
   if(Calendar.chooseDateDay == day) router.push({path: "/cal1", query: {date: JSON.stringify(day.date)}});
   Calendar.chooseDateDay = day;
+}
+
+function getWeatherIcon( weather: any){
+  if(weather.day) return `/src/assets/icons/weather/${weather.day.condition.code}.svg`
+
+  return '';
 }
 
 const getWeekOfYear = function (date: Date) {
@@ -269,7 +283,7 @@ const getWeekOfYear = function (date: Date) {
         <div class="weather">
           <img
             v-if="day.showWeather"
-            src="@/assets/icons/weather/day.svg"
+            :src="getWeatherIcon(day.weather)"
             alt="Pogoda"
             class="weather-icon"
           />
