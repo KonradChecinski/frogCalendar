@@ -1,0 +1,67 @@
+.weather-details-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  padding: 20% 7% 0 15%;
+}
+.x-icon {
+  position: fixed;
+  left: 4%;
+  top: 3%;
+}
+.info-header {
+  display: flex;
+  flex-direction: column;
+
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 10px;
+}
+.weather-details-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0c9ed5;
+}
+.info-weather-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 10px;
+}
+.weather-icon {
+  transform: scale(3);
+}
+.info-weather {
+  display: flex;
+  flex-direction: column;
+}
+.weather-info-text {
+  color: #0c9ed5;
+}
+.temp {
+  font-size: 18px;
+}
+.sun-info-container {
+  display: flex;
+  flex-direction: column;
+
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 10px;
+}
+.sunrise-container,
+.sunset-container,
+.moon-phase-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.sunrise-info,
+.sunset-info {
+  display: flex;
+  flex-direction: column;
+}
