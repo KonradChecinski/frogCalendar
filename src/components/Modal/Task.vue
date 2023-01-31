@@ -36,7 +36,7 @@ const state = reactive({
     </div>
 
     <div class="task-info" v-if="!state.edit">
-      <div class="task-rectangle"></div>
+      <div class="task-rectangle" :class="{ color: state.taskColor }"></div>
       <div class="task-info-text-container">
         <p class="task-info-text">{{ state.taskName }}</p>
         <p>{{ state.taskDate }}</p>
@@ -76,7 +76,7 @@ const state = reactive({
         <p class="text">DATA</p>
         <input
           class="date-input"
-          type="text"
+          type="date"
           name="taskDate"
           required
           v-model="state.taskDate"
@@ -92,7 +92,7 @@ const state = reactive({
         <input
           v-else
           class="time-input"
-          type="text"
+          type="time"
           placeholder="Dodaj czas"
           name="taskTime"
           required
@@ -107,7 +107,7 @@ const state = reactive({
         <p class="text">KOLOR</p>
         <input
           class="color-input"
-          type="text"
+          type="color"
           placeholder="Dodaj kolor"
           name="taskColor"
           require

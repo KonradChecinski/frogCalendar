@@ -40,7 +40,7 @@ const router = createRouter({
         {
             path: '/cal1',
             name: 'Kalendarz1',
-            component: () => Task,
+            component: () => Calendar1View,
             meta: {
                 requiresAuth: true,
             }

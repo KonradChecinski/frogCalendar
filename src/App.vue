@@ -50,7 +50,7 @@ function isLocalStorageAvailable() {
 
 <template>
   <RouterView />
-  <drawerMenu v-if="!LoggedStore.isLoggedIn" />
+  <drawerMenu v-if="LoggedStore.isLoggedIn" />
   <Modal />
 </template>
 
