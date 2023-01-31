@@ -1,0 +1,100 @@
+.task-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 15px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0px 30px 0px;
+}
+.edit-div {
+  display: flex;
+  gap: 20px;
+}
+.save-button {
+  background-color: #0c9ed5;
+  border: none;
+  border-radius: 12px;
+  padding: 0px 10px;
+}
+.task-info {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  padding-bottom: 15px;
+}
+.task-rectangle {
+  background-color: cyan;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+.task-info-text-container {
+  display: flex;
+  flex-direction: column;
+}
+.task-info-text {
+  color: #0c9ed5;
+  font-size: 18px;
+  font-weight: bold;
+}
+.task-name-edit {
+  display: flex;
+  flex-direction: column;
+}
+.name-input {
+  width: 100%;
+  background-color: #181818;
+  border: none;
+  padding: 10px;
+  color: inherit;
+  font-size: 18px;
+
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 10px;
+}
+button {
+  background-color: inherit;
+  border: none;
+  height: 25px;
+}
+.info-container,
+.time-container,
+.date-container,
+.color-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 10px;
+}
+.description-info,
+.time-info {
+  display: flex;
+  flex-direction: column;
+}
+.description-input,
+.time-input,
+.date-input,
+.color-input {
+  width: 100%;
+  background-color: #181818;
+  border: none;
+  /* padding: 10px; */
+  color: inherit;
+}
+.text {
+  color: #0c9ed5;
+}
+.info-container {
+  margin-bottom: 30px;
+}
+.time-container {
+  margin-bottom: 30px;
+}

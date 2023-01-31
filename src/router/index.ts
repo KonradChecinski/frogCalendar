@@ -8,6 +8,7 @@ import Calendar1View from '@/views/Calendar1View.vue'
 import Calendar7View from '@/views/Calendar7View.vue'
 import Calendar30View from '@/views/Calendar30View.vue'
 import WeatherDetails from '@/components/Modal/WeatherDetails.vue'
+import Task from '@/components/Modal/Task.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +40,7 @@ const router = createRouter({
         {
             path: '/cal1',
             name: 'Kalendarz1',
-            component: () => WeatherDetails,
+            component: () => Task,
             meta: {
                 requiresAuth: true,
             }
