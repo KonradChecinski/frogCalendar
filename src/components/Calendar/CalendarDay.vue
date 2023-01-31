@@ -7,12 +7,10 @@ import router from "@/router";
 
 let date = new Date();
 
-if(router.currentRoute.value.query.date != undefined){
+if (router.currentRoute.value.query.date != undefined) {
   let query: any = router.currentRoute.value.query.date;
-  date = new Date(JSON.parse(query))
+  date = new Date(JSON.parse(query));
 }
-
-
 
 const monthNames = [
   "Styczeń",
@@ -44,7 +42,7 @@ let Calendar = reactive({
 });
 Calendar.table.pop();
 // console.log(Calendar.today);
-Calendar.today = date
+Calendar.today = date;
 const actualMonth = computed(() => {
   return Calendar.today.getMonth();
 });
@@ -125,6 +123,46 @@ for (
     <div class="weather">
       <font-awesome-icon class="weather-icon" icon="fa-solid fa-sun" />
       <p class="temp">10°/<span style="color: #0c9ed5">-2°</span></p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    </div>
+    <div class="task">
+      <p class="task-name">Nazwa zadania</p>
+      <p class="task-time">16:23 jedna z lepszych godzin</p>
     </div>
     <div class="task">
       <p class="task-name">Nazwa zadania</p>
