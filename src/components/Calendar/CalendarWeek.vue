@@ -551,6 +551,7 @@ button {
   justify-content: flex-start;
   align-items: center;
   margin-left: 10px;
+  overflow-x: auto;
 }
 .holiday {
   display: flex;
@@ -561,13 +562,14 @@ button {
   border: 2px rgba(255, 255, 255, 0.15) solid;
   padding: 6px;
   height: 80%;
-  max-width: 70%;
+  /* max-width: 70%; */
   max-height: 70px;
 }
 .holiday-text {
-  font-size: 16px;
+  font-size: 15px;
   color: #0c9ed5;
   font-weight: bold;
+  white-space: nowrap;
 }
 .weather {
   display: flex;
