@@ -72,8 +72,36 @@ const dayNames = ["Nd", "Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
 let Calendar = reactive({
   today: new Date(),
   chooseDate: new Date(),
-  chooseDateDay: new Day("0", new Date(), false, {}, false, {},  false, {}, false, false, false),
-  table: [[new Day("0", new Date(), false, {}, false, {}, false, {}, false, false, false)]],
+  chooseDateDay: new Day(
+    "0",
+    new Date(),
+    false,
+    {},
+    false,
+    {},
+    false,
+    {},
+    false,
+    false,
+    false
+  ),
+  table: [
+    [
+      new Day(
+        "0",
+        new Date(),
+        false,
+        {},
+        false,
+        {},
+        false,
+        {},
+        false,
+        false,
+        false
+      ),
+    ],
+  ],
   update: { count: 0 },
 });
 
@@ -155,26 +183,42 @@ function setCalendarTable() {
             Calendar.today.getDate() + 13
           ); //getWeekOfYear(date) == getWeekOfYear(Calendar.today)
 
-        let weather: any = FetchStore.Weather.find((obj: any) => {
-          return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
-        })
-        showWeather = showWeather && weather;
+      let weather: any = FetchStore.Weather.find((obj: any) => {
+        return (
+          obj.date ===
+          date.getFullYear() +
+            "-" +
+            ("0" + (date.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + date.getDate()).slice(-2)
+        );
+      });
+      showWeather = showWeather && weather;
 
-      let events:any  = FetchStore.Events.filter((obj: any) => {
-          return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
-        });
-        if(events.length == 0) events = undefined;
+      let events: any = FetchStore.Events.filter((obj: any) => {
+        return (
+          obj.date ===
+          date.getFullYear() +
+            "-" +
+            ("0" + (date.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + date.getDate()).slice(-2)
+        );
+      });
+      if (events.length == 0) events = undefined;
       let showEvent = OptionsStore.Events && events;
-      
 
-      let holidays:any  = FetchStore.SpecialEvents.filter((obj: any) => {
-          return obj.id === '' + ("0" + date.getDate()).slice(-2) + ("0" + (date.getMonth()+1)).slice(-2);
-        });
+      let holidays: any = FetchStore.SpecialEvents.filter((obj: any) => {
+        return (
+          obj.id ===
+          "" +
+            ("0" + date.getDate()).slice(-2) +
+            ("0" + (date.getMonth() + 1)).slice(-2)
+        );
+      });
 
-        if(holidays.length == 0) holidays = undefined;
+      if (holidays.length == 0) holidays = undefined;
       let showHolidays = OptionsStore.Holidays && holidays;
-
-
 
       let outOfMonth = date.getMonth() != Calendar.chooseDate.getMonth();
       let currentDay = date.toDateString() == Calendar.today.toDateString();
@@ -187,9 +231,9 @@ function setCalendarTable() {
         showWeather,
         weather ?? {},
         showEvent,
-        events?? {},
+        events ?? {},
         showHolidays,
-        holidays?? {},
+        holidays ?? {},
         outOfMonth,
         currentDay,
         chooseDay
@@ -205,7 +249,7 @@ function setMonthEarlier() {
   Calendar.chooseDate = new Date(
     Calendar.chooseDate.getFullYear(),
     Calendar.chooseDate.getMonth(),
-    Calendar.chooseDate.getDate() - 7,
+    Calendar.chooseDate.getDate() - 7
   );
   Calendar.update.count++;
 }
@@ -213,7 +257,7 @@ function setMonthLater() {
   Calendar.chooseDate = new Date(
     Calendar.chooseDate.getFullYear(),
     Calendar.chooseDate.getMonth(),
-    Calendar.chooseDate.getDate() + 7,
+    Calendar.chooseDate.getDate() + 7
   );
   Calendar.update.count++;
 }
@@ -237,24 +281,26 @@ function changeSelection(day: Day) {
   //   else setMonthLater();
   // }
 
-  if(Calendar.chooseDateDay == day) router.push({path: "/cal1", query: {date: JSON.stringify(day.date)}});
+  if (Calendar.chooseDateDay == day)
+    router.push({ path: "/cal1", query: { date: JSON.stringify(day.date) } });
   Calendar.chooseDateDay = day;
 }
 
-function getWeatherIcon( weather: any){
-  if(weather.day) return `/src/assets/icons/weather/${weather.day.condition.code}.svg`
+function getWeatherIcon(weather: any) {
+  if (weather.day)
+    return `/src/assets/icons/weather/${weather.day.condition.code}.svg`;
 
-  return '';
+  return "";
 }
-function getWeatherMaxTemp( weather: any){
-  if(weather.day) return weather.day.maxtemp_c
+function getWeatherMaxTemp(weather: any) {
+  if (weather.day) return weather.day.maxtemp_c;
 
-  return '';
+  return "";
 }
-function getWeatherMinTemp( weather: any){
-  if(weather.day) return weather.day.mintemp_c
+function getWeatherMinTemp(weather: any) {
+  if (weather.day) return weather.day.mintemp_c;
 
-  return '';
+  return "";
 }
 const getWeekOfYear = function (date: Date) {
   var target = new Date(date.valueOf()),
@@ -274,11 +320,6 @@ const getWeekOfYear = function (date: Date) {
   );
 };
 
-
-
-
-
-
 // no need to import defineEmits
 const emit = defineEmits(["update:modelValue"]);
 
@@ -287,27 +328,18 @@ const emit = defineEmits(["update:modelValue"]);
 //   emit("update:modelValue", value);
 // });
 
-
 const modal = useModal();
-  function handleOnClickOpenModal() {
-    modal.open(WelcomeItem,
-    Calendar.chooseDateDay.date,
-     [
-      {
-        // label: "Save",
-        // callback: (dataFromView) => {
-        //   console.log(dataFromView);
-        //   modal.close();
-        // },
-      }
-    ]);
-  }
-
-
-
-
-
-
+function handleOnClickOpenModal() {
+  modal.open(WelcomeItem, Calendar.chooseDateDay.date, [
+    {
+      // label: "Save",
+      // callback: (dataFromView) => {
+      //   console.log(dataFromView);
+      //   modal.close();
+      // },
+    },
+  ]);
+}
 </script>
 <!-- 
 <script setup lang="ts">
@@ -411,7 +443,7 @@ for (
   <div class="calendar">
     <div class="column" v-for="array in Calendar.table">
       <div
-      @click="changeSelection(day)"
+        @click="changeSelection(day)"
         class="day"
         :class="{
           'out-of-month': day.outOfMonth,
@@ -420,25 +452,38 @@ for (
         }"
         v-for="day in array"
       >
-        <div class="day-container" >
+        <div class="day-container">
           <div class="day-name">{{ dayNames[day.date.getDay()] }}</div>
 
           <div class="date">{{ day.date.getDate() }}</div>
         </div>
         <div class="info-container">
           <div class="weather" v-if="day.showWeather">
-          <img
-            v-if="day.showWeather"
-            :src="getWeatherIcon(day.weather)"
-            alt="Pogoda"
-            class="weather-icon"
-          />
-          <p class="temp">{{getWeatherMaxTemp(day.weather)}}°/<span style="color: #0c9ed5">{{getWeatherMinTemp(day.weather)}}°</span></p>
-        </div>
-          <div class="holiday" v-if="day.showHoliday" v-for="holiday in day.holidays">
+            <img
+              v-if="day.showWeather"
+              :src="getWeatherIcon(day.weather)"
+              alt="Pogoda"
+              class="weather-icon"
+            />
+            <p class="temp">
+              {{ getWeatherMaxTemp(day.weather) }}°/<span style="color: #0c9ed5"
+                >{{ getWeatherMinTemp(day.weather) }}°</span
+              >
+            </p>
+          </div>
+          <div
+            class="holiday"
+            v-if="day.showHoliday"
+            v-for="holiday in day.holidays"
+          >
             <p class="holiday-text">{{ holiday.name }}</p>
           </div>
-          <div class="task" v-if="day.showEvent" v-for="event in day.events" :style="{backgroundColor: '#'+event.color}">
+          <div
+            class="task"
+            v-if="day.showEvent"
+            v-for="event in day.events"
+            :style="{ backgroundColor: '#' + event.color }"
+          >
             <p class="task-name">{{ event.name }}</p>
           </div>
         </div>
@@ -446,7 +491,9 @@ for (
     </div>
   </div>
 
-  <div class="add-button" @click="handleOnClickOpenModal"><p class="plus">+</p></div>
+  <div class="add-button" @click="handleOnClickOpenModal">
+    <p class="plus">+</p>
+  </div>
 </template>
 
 <style scoped>
@@ -503,6 +550,7 @@ button {
   gap: 10px;
   justify-content: flex-start;
   align-items: center;
+  margin-left: 10px;
 }
 .holiday {
   display: flex;
@@ -537,9 +585,9 @@ button {
 .weather-icon {
   width: 60%;
   margin: -15px;
-aspect-ratio: 1/1;
+  aspect-ratio: 1/1;
 }
-.weather .temp{
+.weather .temp {
   font-size: 1rem;
 }
 .task {
