@@ -5,6 +5,7 @@ import useModal from "@/stores/modal";
 import { useOptionsStore } from "@/stores/Options";
 import { reactive, computed, watch } from "vue";
 import Task from "../Modal/Task.vue";
+import WeatherDetails from "../Modal/WeatherDetails.vue";
 import WelcomeItem from "../WelcomeItem.vue";
 
 const OptionsStore = useOptionsStore();
@@ -322,6 +323,11 @@ const getWeekOfYear = function (date: Date) {
   );
 };
 
+
+function getTaskHours(event: any){
+    if(event.startTime) return  `${event.startTime} - ${event.endTime}`;
+    return `cały dzień`;
+}
 // no need to import defineEmits
 const emit = defineEmits(["update:modelValue"]);
 
@@ -348,6 +354,21 @@ const modal = useModal();
 
   function handleOnClickOpenModalEdit() {
     modal.open(Task,
+    Calendar.chooseDate,
+    false,
+     [
+      // {
+      //   label: "Save",
+      //   callback: (dataFromView) => {
+      //     console.log(dataFromView);
+      //     modal.close();
+      //   },
+      // }
+    ]);
+  }
+
+  function handleOnClickOpenModalWeather() {
+    modal.open(WeatherDetails,
     Calendar.chooseDate,
     false,
      [
@@ -388,7 +409,9 @@ const modal = useModal();
     <div class="holiday" v-if="day.showHoliday">
             <p class="holiday-text" v-for="holiday in day.holidays">{{ holiday.name }}</p>
     </div>
-    <div class="weather" v-if="day.showWeather">
+    <div class="weather" v-if="day.showWeather"
+    @click="handleOnClickOpenModalWeather"
+    >
       <img
               v-if="day.showWeather"
               :src="getWeatherIcon(day.weather)"
@@ -408,7 +431,7 @@ const modal = useModal();
             :style="{ backgroundColor: '#' + event.color }">
       <p class="task-name">{{ event.name }}</p>
       <p class="task-description">{{ event.description }}</p>
-      <p class="task-time">{{ event.startTime }} - {{ event.endTime }}</p>
+      <p class="task-time">{{getTaskHours(event)}}</p>
     </div>
 
   </div>
