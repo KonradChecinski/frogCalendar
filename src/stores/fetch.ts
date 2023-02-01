@@ -4,7 +4,6 @@ import { useLoggedStore } from './LoggedIn';
 import { useOptionsStore } from './Options';
 
 
-
 export const useFetchStore = defineStore('fetch', () => {
   const LoggedStore = useLoggedStore();
   const OptionStore = useOptionsStore();
@@ -12,7 +11,8 @@ export const useFetchStore = defineStore('fetch', () => {
 
   const Weather = ref([]);
   const Events = ref([]);
-  const SpecialEvents = ref([]);
+  const SpecialEvents = ref([{id: '0', name: "a"}]);
+  SpecialEvents.value.length=0;
 
 
 
@@ -50,8 +50,9 @@ export const useFetchStore = defineStore('fetch', () => {
     fetchDataFromSwietaNietypoweAPI().then((res:any)=>{
       res.forEach((element:any) => {
         if(element != null) {
+          let name: string = element.name;
           let index = '' + ("0" + element.day).slice(-2) + ("0" + element.month).slice(-2);
-          let object = {id: index, name: element.name};
+          let object = {id: index, name: name};
           SpecialEvents.value.push(object);
         }
        

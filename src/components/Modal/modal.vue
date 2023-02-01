@@ -1,7 +1,7 @@
 <template>
       <div v-if="isOpen" class="modal modal-open" ref="componentRef">
         <div class="modal-box relative">
-          <component :is="view" v-model="model" :date="modal.date" :edit="modal.edit" :calendarEvent="modal.calendarEvent" @closeClick="closeModal"></component>
+          <component :is="view" :date="modal.date" :edit="modal.edit" :calendarEvent="modal.calendarEvent" @closeClick="closeModal"></component>
         </div>
       </div>
   </template>
