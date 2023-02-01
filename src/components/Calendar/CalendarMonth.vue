@@ -365,7 +365,7 @@ const modal = useModal();
     </div>
   </div>
 
-  <div class="add-button" @click="handleOnClickOpenModal"><p class="plus">+</p></div>
+  <div class="add-button" @click="handleOnClickOpenModal"><p class="plus"><font-awesome-icon icon="fa-solid fa-plus" /></p></div>
 </template>
 
 <style scoped src="@/assets/css/calendarMonth.css"></style>

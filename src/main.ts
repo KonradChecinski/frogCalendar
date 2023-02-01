@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight, faSquare, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight, faSquare, faPlusCircle, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 
 import App from './App.vue'
@@ -25,7 +25,7 @@ app.use(pinia)
 app.use(router)
 app.provide('axios', app.config.globalProperties.axios)
 
-library.add(faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight, faSquare, faPlusCircle)
+library.add(faSun, faArrowLeftLong, faArrowRightLong, faChevronLeft, faChevronRight, faSquare, faPlusCircle, faPlus)
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 

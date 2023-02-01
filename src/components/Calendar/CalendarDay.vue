@@ -443,7 +443,7 @@ function getContrastYIQ(hexcolor: any){
   </div>
 
   <div class="add-button" @click="handleOnClickOpenModalEdit(undefined)">
-    <p class="plus">+</p>
+    <p class="plus"><font-awesome-icon icon="fa-solid fa-plus" /></p>
   </div>
 </template>
 
@@ -540,8 +540,8 @@ button {
 .plus {
   font-weight: bold;
   position: relative;
-  font-size: 3rem;
+  font-size: 2.7rem;
   color: black;
-  bottom: 7%;
+  bottom: -4%;
 }
 </style>
