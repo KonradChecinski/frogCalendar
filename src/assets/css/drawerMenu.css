@@ -260,6 +260,11 @@ input:checked + .toggle:after {
   opacity: 0.5;
 }
 
+a {
+  display: flex;
+  gap: 10px;
+}
+
 /* Responsive MQ */
 
 @media all and (max-width: 350px) {

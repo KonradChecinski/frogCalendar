@@ -323,10 +323,9 @@ const getWeekOfYear = function (date: Date) {
   );
 };
 
-
-function getTaskHours(event: any){
-    if(event.startTime) return  `${event.startTime} - ${event.endTime}`;
-    return `cały dzień`;
+function getTaskHours(event: any) {
+  if (event.startTime) return `${event.startTime} - ${event.endTime}`;
+  return `cały dzień`;
 }
 // no need to import defineEmits
 const emit = defineEmits(["update:modelValue"]);
@@ -337,50 +336,41 @@ const emit = defineEmits(["update:modelValue"]);
 // });
 
 const modal = useModal();
-  function handleOnClickOpenModal() {
-    modal.open(Task,
-    Calendar.chooseDate,
-    true,
-     [
-      // {
-      //   label: "Save",
-      //   callback: (dataFromView) => {
-      //     console.log(dataFromView);
-      //     modal.close();
-      //   },
-      // }
-    ]);
-  }
+function handleOnClickOpenModal() {
+  modal.open(Task, Calendar.chooseDate, true, [
+    // {
+    //   label: "Save",
+    //   callback: (dataFromView) => {
+    //     console.log(dataFromView);
+    //     modal.close();
+    //   },
+    // }
+  ]);
+}
 
-  function handleOnClickOpenModalEdit() {
-    modal.open(Task,
-    Calendar.chooseDate,
-    false,
-     [
-      // {
-      //   label: "Save",
-      //   callback: (dataFromView) => {
-      //     console.log(dataFromView);
-      //     modal.close();
-      //   },
-      // }
-    ]);
-  }
+function handleOnClickOpenModalEdit() {
+  modal.open(Task, Calendar.chooseDate, false, [
+    // {
+    //   label: "Save",
+    //   callback: (dataFromView) => {
+    //     console.log(dataFromView);
+    //     modal.close();
+    //   },
+    // }
+  ]);
+}
 
-  function handleOnClickOpenModalWeather() {
-    modal.open(WeatherDetails,
-    Calendar.chooseDate,
-    false,
-     [
-      // {
-      //   label: "Save",
-      //   callback: (dataFromView) => {
-      //     console.log(dataFromView);
-      //     modal.close();
-      //   },
-      // }
-    ]);
-  }
+function handleOnClickOpenModalWeather() {
+  modal.open(WeatherDetails, Calendar.chooseDate, false, [
+    // {
+    //   label: "Save",
+    //   callback: (dataFromView) => {
+    //     console.log(dataFromView);
+    //     modal.close();
+    //   },
+    // }
+  ]);
+}
 </script>
 
 <template>
@@ -407,36 +397,43 @@ const modal = useModal();
   </div>
   <div class="calendar" v-for="day in Calendar.table[0]">
     <div class="holiday" v-if="day.showHoliday">
-            <p class="holiday-text" v-for="holiday in day.holidays">{{ holiday.name }}</p>
+      <p class="holiday-text" v-for="holiday in day.holidays">
+        {{ holiday.name }}
+      </p>
     </div>
-    <div class="weather" v-if="day.showWeather"
-    @click="handleOnClickOpenModalWeather"
+    <div
+      class="weather"
+      v-if="day.showWeather"
+      @click="handleOnClickOpenModalWeather"
     >
       <img
-              v-if="day.showWeather"
-              :src="getWeatherIcon(day.weather)"
-              alt="Pogoda"
-              class="weather-icon"
-            />
-            <p class="temp">
-              {{ getWeatherMaxTemp(day.weather) }}°/<span style="color: #0c9ed5"
-                >{{ getWeatherMinTemp(day.weather) }}°</span
-              >
-            </p>
+        v-if="day.showWeather"
+        :src="getWeatherIcon(day.weather)"
+        alt="Pogoda"
+        class="weather-icon"
+      />
+      <p class="temp">
+        {{ getWeatherMaxTemp(day.weather) }}°/<span style="color: #0c9ed5"
+          >{{ getWeatherMinTemp(day.weather) }}°</span
+        >
+      </p>
     </div>
-    <div class="task" 
-            @click="handleOnClickOpenModalEdit"
-            v-if="day.showEvent"
-            v-for="event in day.events"
-            :style="{ backgroundColor: '#' + event.color }">
+    <div
+      class="task"
+      @click="handleOnClickOpenModalEdit"
+      v-if="day.showEvent"
+      v-for="event in day.events"
+      :style="{ backgroundColor: '#' + event.color }"
+    >
       <p class="task-name">{{ event.name }}</p>
       <p class="task-description">{{ event.description }}</p>
-      <p class="task-time">{{getTaskHours(event)}}</p>
+      <p class="task-time">{{ getTaskHours(event) }}</p>
     </div>
-
   </div>
 
-  <div class="add-button" @click="handleOnClickOpenModal"><p class="plus">+</p></div>
+  <div class="add-button" @click="handleOnClickOpenModal">
+    <p class="plus">+</p>
+  </div>
 </template>
 
 <style scoped>
@@ -490,7 +487,7 @@ button {
   margin-bottom: 10px;
 }
 .weather-icon {
-  transform: scale(2.5);
+  transform: scale(1.5);
 }
 .temp {
   font-size: 2rem;
