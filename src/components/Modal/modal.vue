@@ -1,23 +1,7 @@
 <template>
-  <!-- <div class="background" @click="modal.close()"></div> -->
       <div v-if="isOpen" class="modal modal-open" ref="componentRef">
         <div class="modal-box relative">
-          <!-- <label
-            class="btn btn-sm btn-circle absolute right-2 top-2"
-            @click="modal.close()"
-            >✕</label> -->
-          <!-- <div>{{ modal.date?.getDate() + '.' + modal.date?.getMonth() + '.' + modal.date?.getFullYear() }}</div> -->
-          <component :is="view" v-model="model" :date="modal.date" :edit="modal.edit" @closeClick="closeModal"></component>
-          
-          <!-- <div class="modal-action">
-            <button
-              v-for="action in actions"
-              class="btn"
-              @click="action.callback(model)"
-            >
-              {{ action.label }}
-            </button>
-          </div> -->
+          <component :is="view" v-model="model" :date="modal.date" :edit="modal.edit" :calendarEvent="modal.calendarEvent" @closeClick="closeModal"></component>
         </div>
       </div>
   </template>

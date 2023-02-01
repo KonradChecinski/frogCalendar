@@ -24,7 +24,9 @@ function login(e: any) {
       LoggedStore.email = value.user.email;
       LoggedStore.isLoggedIn = true;
 
-      router.replace("/");
+      FetchStore.getEvents();
+
+      router.replace("/cal30");
     },
     (error) => {
       let result: any = error;

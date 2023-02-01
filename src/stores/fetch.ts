@@ -32,6 +32,15 @@ export const useFetchStore = defineStore('fetch', () => {
       })
     }, 1000);
   }
+  function getEventsWithoutHesitate(): any{  
+      return new Promise((resolve) =>{
+        fetchDataFromFrogAPI('/event/user/all', 'GET').then((res:any)=>{
+        Events.value = res.result;
+        OptionStore.EventsUpdate.count++;
+        resolve(true);
+      })
+    });
+  }
   function getForecast() :any{
     fetchDataFromForecastAPI().then((res:any)=>{
       Weather.value = res.forecast.forecastday;
@@ -146,5 +155,5 @@ export const useFetchStore = defineStore('fetch', () => {
 
   
 
-  return { fetchDataFromFrogAPI, Weather, Events, SpecialEvents }
+  return { fetchDataFromFrogAPI, getEvents, getEventsWithoutHesitate, Weather, Events, SpecialEvents }
 })

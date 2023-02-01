@@ -336,8 +336,8 @@ const emit = defineEmits(["update:modelValue"]);
 // });
 
 const modal = useModal();
-function handleOnClickOpenModal() {
-  modal.open(Task, Calendar.chooseDate, true, [
+function handleOnClickOpenModal(event: any) {
+  modal.open(Task, Calendar.chooseDate, false, event, [
     // {
     //   label: "Save",
     //   callback: (dataFromView) => {
@@ -348,8 +348,8 @@ function handleOnClickOpenModal() {
   ]);
 }
 
-function handleOnClickOpenModalEdit() {
-  modal.open(Task, Calendar.chooseDate, false, [
+function handleOnClickOpenModalEdit(event: any) {
+  modal.open(Task, Calendar.chooseDate, true, event, [
     // {
     //   label: "Save",
     //   callback: (dataFromView) => {
@@ -370,6 +370,14 @@ function handleOnClickOpenModalWeather() {
     //   },
     // }
   ]);
+}
+
+function getContrastYIQ(hexcolor: any){
+    var r = parseInt(hexcolor.substring(1,3),16);
+    var g = parseInt(hexcolor.substring(3,5),16);
+    var b = parseInt(hexcolor.substring(5,7),16);
+    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? 'black' : 'white';
 }
 </script>
 
@@ -420,10 +428,13 @@ function handleOnClickOpenModalWeather() {
     </div>
     <div
       class="task"
-      @click="handleOnClickOpenModalEdit"
+      @click="handleOnClickOpenModal(event)"
       v-if="day.showEvent"
       v-for="event in day.events"
-      :style="{ backgroundColor: '#' + event.color }"
+      :style="{ 
+        backgroundColor: '#' + event.color,
+        color: getContrastYIQ('#' + event.color)
+    }"
     >
       <p class="task-name">{{ event.name }}</p>
       <p class="task-description">{{ event.description }}</p>
@@ -431,7 +442,7 @@ function handleOnClickOpenModalWeather() {
     </div>
   </div>
 
-  <div class="add-button" @click="handleOnClickOpenModal">
+  <div class="add-button" @click="handleOnClickOpenModalEdit(undefined)">
     <p class="plus">+</p>
   </div>
 </template>
@@ -484,7 +495,8 @@ button {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 5px;
   border: 2px rgba(255, 255, 255, 0.15) solid;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .weather-icon {
   transform: scale(1.5);
@@ -500,7 +512,8 @@ button {
   background: rgba(255, 255, 255, 0.15);
   border: 2px #0c9ed5 solid;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
   cursor: pointer;
 }
 .task-name {

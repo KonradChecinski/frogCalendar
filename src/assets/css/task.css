@@ -27,7 +27,7 @@
   padding-bottom: 15px;
 }
 .task-rectangle {
-  background-color: cyan;
+ border: 1px solid #0c9ed5;
   width: 30px;
   height: 30px;
   border-radius: 5px;
@@ -150,15 +150,49 @@ input[type="checkbox"] {
   transition: 0.3s;
 }
 
-.switch:checked + .toggle {
+.switch.checked {
   background: #0c9ed5;
 }
 
-.switch:checked + .toggle:after {
+.switch.checked:after {
   left: 100%;
   transform: translateX(-100%);
 }
 
 .toggle:active:after {
-  width: 40px;
+  width: 100%;
+}
+
+
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading{
+  z-index: 1000;
+  position: fixed;
+  left: calc(50% - 32px);
+  top: calc(50% - 32px);
 }

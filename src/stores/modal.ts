@@ -6,7 +6,8 @@ export type Modal = {
   view: object,
   actions?: ModalAction[],
   date?: Date,
-  edit?: Boolean
+  edit?: Boolean,
+  calendarEvent?: any
 };
 
 export type ModalAction = {
@@ -21,13 +22,14 @@ export const useModal = defineStore("modal", {
     actions: [],
   }),
   actions: {
-    open(view: object, date: Date, edit: Boolean, actions?: ModalAction[],) {
+    open(view: object, date: Date, edit: Boolean, event?: any, actions?: ModalAction[],) {
       this.isOpen = true;
       this.actions = actions;
       // using markRaw to avoid over performance as reactive is not required
       this.view = markRaw(view);
       this.date = date;
       this.edit = edit;
+      this.calendarEvent = event;
     },
     close() {
       this.isOpen = false;

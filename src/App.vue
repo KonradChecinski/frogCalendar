@@ -18,6 +18,12 @@ if (isLocalStorageAvailable()) {
 }
 
 router.beforeEach((to, from, next) => {
+  if(LoggedStore.isLoggedIn &&
+    to.matched.some((record) => record.path == "/")
+  ) {
+    next("/cal30");
+  };
+  
   if (
     LoggedStore.isLoggedIn &&
     to.matched.some((record) => record.path == "/login")
