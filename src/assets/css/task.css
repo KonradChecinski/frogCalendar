@@ -80,7 +80,8 @@ button {
   flex-direction: column;
 }
 .description-input,
-.time-input,
+.time-input-from,
+.time-input-to,
 .date-input,
 .color-input {
   width: 100%;
@@ -89,6 +90,10 @@ button {
   /* padding: 10px; */
   color: inherit;
 }
+.time-input-from,
+.time-input-to {
+  width: auto;
+}
 .text {
   color: #0c9ed5;
 }
@@ -96,5 +101,64 @@ button {
   margin-bottom: 30px;
 }
 .time-container {
+  margin-bottom: 5px;
+}
+.time-info-range {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin-bottom: 30px;
+  padding-left: 40px;
+}
+.time-from,
+.time-to {
+  display: flex;
+  gap: 10px;
+}
+.switch-container {
+  display: flex;
+  gap: 30px;
+}
+
+/* SWITCH */
+input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.toggle {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 35px;
+  height: 15px;
+  background: grey;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.toggle:after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0px;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+.switch:checked + .toggle {
+  background: #0c9ed5;
+}
+
+.switch:checked + .toggle:after {
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.toggle:active:after {
+  width: 40px;
 }

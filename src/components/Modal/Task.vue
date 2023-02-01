@@ -2,25 +2,37 @@
 import { reactive } from "vue";
 
 const props = defineProps<{
-      date: Date
-      edit: Boolean
-    }>()
+  date: Date;
+  edit: Boolean;
+}>();
 const state = reactive({
   edit: props.edit,
 
   taskName: "",
   taskDescription: "",
-  taskDate: props.date.getFullYear() + '-' + ("0" + (props.date.getMonth()+1)).slice(-2) + '-' + ("0" + (props.date.getDate())).slice(-2),
-  
-  taskTime: "",
+  taskDate:
+    props.date.getFullYear() +
+    "-" +
+    ("0" + (props.date.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + props.date.getDate()).slice(-2),
+
+  taskTimeFrom: "",
+  taskTimeTo: "",
   taskColor: "#333333",
+  fullDay: false,
 });
 </script>
 
 <template>
   <div class="task-container">
     <div class="header">
-      <img class="x-icon" alt="exit icon" src="@/assets/icons/x_icon.png" @click="$emit('closeClick')"/>
+      <img
+        class="x-icon"
+        alt="exit icon"
+        src="@/assets/icons/x_icon.png"
+        @click="$emit('closeClick')"
+      />
       <div class="edit-div" v-if="!state.edit">
         <button @click="state.edit = true">
           <img
@@ -94,15 +106,37 @@ const state = reactive({
       <img src="@/assets/icons/clock.png" alt="clock icon" />
       <div class="time-info">
         <p class="text">CZAS</p>
-        <p v-if="!state.edit">{{ state.taskTime }}</p>
+        <p v-if="!state.edit">{{ (state.taskTimeFrom, state.taskTimeTo) }}</p>
+        <div v-else class="switch-container">
+          <p>cały dzień</p>
+          <input
+            type="checkbox"
+            id="switch1"
+            style="display: none"
+            v-model="state.fullDay"
+          /><label for="switch1" class="toggle switch">Toggle</label>
+        </div>
+      </div>
+    </div>
+    <div v-if="state.edit && !state.fullDay" class="time-info-range">
+      <div class="time-from">
+        <p>od</p>
         <input
-          v-else
-          class="time-input"
+          class="time-input-from"
           type="time"
-          placeholder="Dodaj czas"
           name="taskTime"
           required
-          v-model="state.taskTime"
+          v-model="state.taskTimeFrom"
+        />
+      </div>
+      <div class="time-to">
+        <p>do</p>
+        <input
+          class="time-input-to"
+          type="time"
+          name="taskTime"
+          required
+          v-model="state.taskTimeTo"
         />
       </div>
     </div>
