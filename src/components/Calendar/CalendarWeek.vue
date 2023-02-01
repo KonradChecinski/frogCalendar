@@ -4,6 +4,7 @@ import { useFetchStore } from "@/stores/fetch";
 import useModal from "@/stores/modal";
 import { useOptionsStore } from "@/stores/Options";
 import { reactive, computed, watch } from "vue";
+import Task from "../Modal/Task.vue";
 import WelcomeItem from "../WelcomeItem.vue";
 
 const OptionsStore = useOptionsStore();
@@ -329,106 +330,24 @@ const emit = defineEmits(["update:modelValue"]);
 // });
 
 const modal = useModal();
-function handleOnClickOpenModal() {
-  modal.open(WelcomeItem, Calendar.chooseDateDay.date, [
-    {
-      // label: "Save",
-      // callback: (dataFromView) => {
-      //   console.log(dataFromView);
-      //   modal.close();
-      // },
-    },
-  ]);
-}
-</script>
-<!-- 
-<script setup lang="ts">
-// defineProps<{
-//   msg: string
-// }>()
-import { reactive, computed } from "vue";
-
-const monthNames = [
-  "Styczeń",
-  "Luty",
-  "Marzec",
-  "Kwiecień",
-  "Maj",
-  "Czerwiec",
-  "Lipiec",
-  "Sierpień",
-  "Wrzesień",
-  "Październik",
-  "Listopad",
-  "Grudzień",
-];
-const dayNames = ["Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
-// TRZEBA BĘDZE ZEROWAĆ TEN LICZNIK ZA KAŻDYM RAZEM JAK SIĘ ZMIENI TYDZIEŃ CHYBA
-let dayNameCounter: number = 0;
-const incrementDayNameCounter = () => {
-  dayNameCounter++;
-};
-
-let Calendar = reactive({
-  today: new Date(),
-  table: [[new Date()]],
-});
-Calendar.table.pop();
-console.log(Calendar.today);
-const actualMonth = computed(() => {
-  return Calendar.today.getMonth();
-});
-const actualYear = computed(() => {
-  return Calendar.today.getFullYear();
-});
-const firstDayOfMonth = computed(() => {
-  let date: Date = new Date();
-  date.setDate(1);
-  date.setMonth(actualMonth.value);
-  date.setFullYear(actualYear.value);
-  date.setHours(0, 0, 0, 0);
-  return date;
-});
-const lastDayOfMonth = computed(() => {
-  let date = new Date(
-    Calendar.today.getFullYear(),
-    Calendar.today.getMonth() + 1,
-    0
-  );
-  return date;
-});
-
-function howManyDaysBefore() {
-  if (Calendar.today.getDay() == 0) return 6;
-  else return Calendar.today.getDay() - 1;
-}
-function howManyDaysAfter() {
-  if (Calendar.today.getDay() == 0) return 0;
-  else return 7 - Calendar.today.getDay();
-}
-
-function getDateXDaysAway(numOfDays: number) {
-  const daysAgo = new Date(firstDayOfMonth.value.getTime());
-  daysAgo.setDate(firstDayOfMonth.value.getDate() + numOfDays);
-  return daysAgo;
-}
-
-for (
-  let i = Calendar.today.getDate() - howManyDaysBefore() - 1;
-  i < Calendar.today.getDate() + howManyDaysAfter();
-  i += 7
-) {
-  let array = [];
-  for (let j = i; j < i + 7; j++) {
-    array.push(getDateXDaysAway(j));
+  function handleOnClickOpenModal() {
+    modal.open(Task,
+    Calendar.chooseDateDay.date,
+    true,
+     [
+      // {
+      //   label: "Save",
+      //   callback: (dataFromView) => {
+      //     console.log(dataFromView);
+      //     modal.close();
+      //   },
+      // }
+    ]);
   }
-  Calendar.table.push(array);
-}
-</script> -->
+</script>
 
 <template>
   <div class="calendar-header">
-    <!-- KONRADO ZANIM ZROBISZ TE PRZYCISKI TO SPÓJRZ NA LINIĘ 22 -->
     <button @click="setMonthEarlier">
       <font-awesome-icon icon="fa-solid fa-chevron-left" />
     </button>
@@ -534,6 +453,7 @@ button {
   display: flex;
   flex-direction: column;
   width: 40px;
+  min-width: 40px;
 }
 .date {
   font-size: 18px;
@@ -552,6 +472,7 @@ button {
   align-items: center;
   margin-left: 10px;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 .holiday {
   display: flex;
@@ -562,7 +483,7 @@ button {
   border: 2px rgba(255, 255, 255, 0.15) solid;
   padding: 6px;
   height: 80%;
-  /* max-width: 70%; */
+  /* max-width: 200px; */
   max-height: 70px;
 }
 .holiday-text {
@@ -583,6 +504,7 @@ button {
   height: 80%;
   max-height: 70px;
   width: 100px;
+  min-width: 100px;
 }
 .weather-icon {
   width: 60%;

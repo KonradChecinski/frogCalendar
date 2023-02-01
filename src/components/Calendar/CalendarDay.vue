@@ -1,15 +1,53 @@
 <script setup lang="ts">
-// defineProps<{
-//   msg: string
-// }>()
-import { reactive, computed } from "vue";
 import router from "@/router";
+import { useFetchStore } from "@/stores/fetch";
+import useModal from "@/stores/modal";
+import { useOptionsStore } from "@/stores/Options";
+import { reactive, computed, watch } from "vue";
+import Task from "../Modal/Task.vue";
+import WelcomeItem from "../WelcomeItem.vue";
 
-let date = new Date();
+const OptionsStore = useOptionsStore();
+const FetchStore = useFetchStore();
 
-if (router.currentRoute.value.query.date != undefined) {
-  let query: any = router.currentRoute.value.query.date;
-  date = new Date(JSON.parse(query));
+class Day {
+  id: string;
+  date: Date;
+  showWeather: Boolean;
+  weather: object;
+  showEvent: Boolean;
+  events: any;
+  showHoliday: Boolean;
+  holidays: any;
+  outOfMonth: Boolean;
+  currentDay: Boolean;
+  chooseDay: Boolean;
+
+  constructor(
+    id: string,
+    date: Date,
+    showWeather: boolean,
+    weather: object,
+    showEvent: boolean,
+    events: object,
+    showHoliday: Boolean,
+    holidays: any,
+    outOfMonth: Boolean,
+    currentDay: Boolean,
+    chooseDay: Boolean
+  ) {
+    this.id = id;
+    this.date = date;
+    this.showWeather = showWeather;
+    this.weather = weather;
+    this.showEvent = showEvent;
+    this.events = events;
+    this.showHoliday = showHoliday;
+    this.holidays = holidays;
+    this.outOfMonth = outOfMonth;
+    this.currentDay = currentDay;
+    this.chooseDay = chooseDay;
+  }
 }
 
 const monthNames = [
@@ -26,28 +64,72 @@ const monthNames = [
   "Listopad",
   "Grudzień",
 ];
-const dayNames = [
-  "Poniedziałek",
-  "Wtorek",
-  "Środa",
-  "Czwartek",
-  "Piątek",
-  "Sobota",
-  "Niedziela",
-];
+const dayNames = ["Nd", "Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
+
+let startDate = new Date();
+if (router.currentRoute.value.query.date != undefined) {
+  let query: any = router.currentRoute.value.query.date;
+  startDate = new Date(JSON.parse(query));
+}
 
 let Calendar = reactive({
   today: new Date(),
-  table: [[new Date()]],
+  chooseDate: startDate,
+  chooseDateDay: new Day(
+    "0",
+    startDate,
+    false,
+    {},
+    false,
+    {},
+    false,
+    {},
+    false,
+    false,
+    false
+  ),
+  table: [
+    [
+      new Day(
+        "0",
+        new Date(),
+        false,
+        {},
+        false,
+        {},
+        false,
+        {},
+        false,
+        false,
+        false
+      ),
+    ],
+  ],
+  update: { count: 0 },
+});
+
+watch(Calendar.update, async () => {
+  Calendar.table.length = 0;
+  setCalendarTable();
+});
+
+watch(OptionsStore.WeatherUpdate, () => {
+  Calendar.update.count++;
+});
+watch(OptionsStore.HolidaysUpdate, () => {
+  Calendar.update.count++;
+});
+watch(OptionsStore.EventsUpdate, () => {
+  Calendar.update.count++;
 });
 Calendar.table.pop();
-// console.log(Calendar.today);
-Calendar.today = date;
+Calendar.update.count++;
+
 const actualMonth = computed(() => {
-  return Calendar.today.getMonth();
+  return Calendar.chooseDate.getMonth();
 });
 const actualYear = computed(() => {
-  return Calendar.today.getFullYear();
+  return Calendar.chooseDate.getFullYear();
 });
 const firstDayOfMonth = computed(() => {
   let date: Date = new Date();
@@ -59,8 +141,8 @@ const firstDayOfMonth = computed(() => {
 });
 const lastDayOfMonth = computed(() => {
   let date = new Date(
-    Calendar.today.getFullYear(),
-    Calendar.today.getMonth() + 1,
+    Calendar.chooseDate.getFullYear(),
+    Calendar.chooseDate.getMonth() + 1,
     0
   );
   return date;
@@ -81,96 +163,257 @@ function getDateXDaysAway(numOfDays: number) {
   return daysAgo;
 }
 
-for (
-  let i = Calendar.today.getDate() - howManyDaysBefore() - 1;
-  i < Calendar.today.getDate() + howManyDaysAfter();
-  i += 7
-) {
-  let array = [];
-  for (let j = i; j < i + 7; j++) {
-    array.push(getDateXDaysAway(j));
+function setCalendarTable() {
+  for (
+    let i = Calendar.chooseDate.getDate() - 1;
+    i < Calendar.chooseDate.getDate();
+    i += 7
+  ) {
+    let array = [];
+    for (let j = i; j < i + 1; j++) {
+      let date = getDateXDaysAway(j);
+      Calendar.today.setHours(0, 0, 0, 0);
+
+      let id = date.getFullYear() + "" + date.getMonth() + date.getDate();
+
+      let showWeather =
+        OptionsStore.Weather &&
+        date >= Calendar.today &&
+        date <
+          new Date(
+            Calendar.today.getFullYear(),
+            Calendar.today.getMonth(),
+            Calendar.today.getDate() + 13
+          ); //getWeekOfYear(date) == getWeekOfYear(Calendar.today)
+      let weather: any = FetchStore.Weather.find((obj: any) => {
+        return (
+          obj.date ===
+          date.getFullYear() +
+            "-" +
+            ("0" + (date.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + date.getDate()).slice(-2)
+        );
+      });
+      showWeather = showWeather && weather;
+
+      let events: any = FetchStore.Events.filter((obj: any) => {
+        return (
+          obj.date ===
+          date.getFullYear() +
+            "-" +
+            ("0" + (date.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + date.getDate()).slice(-2)
+        );
+      });
+      if (events.length == 0) events = undefined;
+      let showEvent = OptionsStore.Events && events;
+
+      let holidays: any = FetchStore.SpecialEvents.filter((obj: any) => {
+        return (
+          obj.id ===
+          "" +
+            ("0" + date.getDate()).slice(-2) +
+            ("0" + (date.getMonth() + 1)).slice(-2)
+        );
+      });
+
+      if (holidays.length == 0) holidays = undefined;
+      let showHolidays = OptionsStore.Holidays && holidays;
+
+      let outOfMonth = date.getMonth() != Calendar.chooseDate.getMonth();
+      let currentDay = date.toDateString() == Calendar.today.toDateString();
+      let chooseDay =
+        date.toDateString() == Calendar.chooseDateDay.date.toDateString(); //date.getDate() == Calendar.chooseDate.getDate();
+
+      let resultDate = new Day(
+        id,
+        date,
+        showWeather,
+        weather ?? {},
+        showEvent,
+        events ?? {},
+        showHolidays,
+        holidays ?? {},
+        outOfMonth,
+        currentDay,
+        chooseDay
+      );
+      array.push(resultDate);
+      if (chooseDay) Calendar.chooseDateDay = resultDate;
+    }
+    Calendar.table.push(array);
   }
-  Calendar.table.push(array);
 }
+
+function setMonthEarlier() {
+  Calendar.chooseDate = new Date(
+    Calendar.chooseDate.getFullYear(),
+    Calendar.chooseDate.getMonth(),
+    Calendar.chooseDate.getDate() - 1
+  );
+  Calendar.update.count++;
+}
+function setMonthLater() {
+  Calendar.chooseDate = new Date(
+    Calendar.chooseDate.getFullYear(),
+    Calendar.chooseDate.getMonth(),
+    Calendar.chooseDate.getDate() + 1
+  );
+  Calendar.update.count++;
+}
+
+function changeSelection(day: Day) {
+  day.chooseDay = true;
+  if (day != Calendar.chooseDateDay) Calendar.chooseDateDay.chooseDay = false;
+  // if (
+  //   "" + day.date.getFullYear() + ("0" + day.date.getMonth()).slice(-2) !=
+  //   "" +
+  //     Calendar.chooseDate.getFullYear() +
+  //     ("0" + Calendar.chooseDate.getMonth()).slice(-2)
+  // ) {
+  //   if (
+  //     "" + day.date.getFullYear() + ("0" + day.date.getMonth()).slice(-2) <
+  //     "" +
+  //       Calendar.chooseDate.getFullYear() +
+  //       ("0" + Calendar.chooseDate.getMonth()).slice(-2)
+  //   )
+  //     setMonthEarlier();
+  //   else setMonthLater();
+  // }
+
+  if (Calendar.chooseDateDay == day)
+    router.push({ path: "/cal1", query: { date: JSON.stringify(day.date) } });
+  Calendar.chooseDateDay = day;
+}
+
+function getWeatherIcon(weather: any) {
+  if (weather.day)
+    return `/src/assets/icons/weather/${weather.day.condition.code}.svg`;
+
+  return "";
+}
+function getWeatherMaxTemp(weather: any) {
+  if (weather.day) return weather.day.maxtemp_c;
+
+  return "";
+}
+function getWeatherMinTemp(weather: any) {
+  if (weather.day) return weather.day.mintemp_c;
+
+  return "";
+}
+const getWeekOfYear = function (date: Date) {
+  var target = new Date(date.valueOf()),
+    dayNumber = (date.getUTCDay() + 7) % 7,
+    firstThursday;
+
+  target.setUTCDate(target.getUTCDate() - dayNumber + 3);
+  firstThursday = target.valueOf();
+  target.setUTCMonth(0, 1);
+
+  if (target.getUTCDay() !== 4) {
+    target.setUTCMonth(0, 1 + ((4 - target.getUTCDay() + 7) % 7));
+  }
+
+  return (
+    Math.ceil((firstThursday - target.valueOf()) / (7 * 24 * 3600 * 1000)) + 1
+  );
+};
+
+// no need to import defineEmits
+const emit = defineEmits(["update:modelValue"]);
+
+// // when someVar changes, it will update the reference passed via v-model
+// watch(someVar, (value) => {
+//   emit("update:modelValue", value);
+// });
+
+const modal = useModal();
+  function handleOnClickOpenModal() {
+    modal.open(Task,
+    Calendar.chooseDate,
+    true,
+     [
+      // {
+      //   label: "Save",
+      //   callback: (dataFromView) => {
+      //     console.log(dataFromView);
+      //     modal.close();
+      //   },
+      // }
+    ]);
+  }
+
+  function handleOnClickOpenModalEdit() {
+    modal.open(Task,
+    Calendar.chooseDate,
+    false,
+     [
+      // {
+      //   label: "Save",
+      //   callback: (dataFromView) => {
+      //     console.log(dataFromView);
+      //     modal.close();
+      //   },
+      // }
+    ]);
+  }
 </script>
 
 <template>
   <div class="calendar-header">
-    <button>
+    <button @click="setMonthEarlier">
       <font-awesome-icon icon="fa-solid fa-chevron-left" />
     </button>
     <div class="header-text">
       <p style="color: #0c9ed5">DZIEŃ</p>
       <h2>
         {{
-          Calendar.today.getDate() +
+          Calendar.chooseDate.getDate() +
           " " +
           monthNames[actualMonth] +
           " " +
           actualYear
         }}
       </h2>
-      <h3>{{ dayNames[Calendar.today.getDay() - 1] }}</h3>
+      <h3>{{ dayNames[Calendar.today.getDay()] }}</h3>
     </div>
-    <button>
+    <button @click="setMonthLater">
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
     </button>
   </div>
-  <div class="calendar">
-    <div class="holiday">
-      <p class="holiday-text">Dzień Pieroga</p>
+  <div class="calendar" v-for="day in Calendar.table[0]">
+    <div class="holiday" v-if="day.showHoliday">
+            <p class="holiday-text" v-for="holiday in day.holidays">{{ holiday.name }}</p>
     </div>
-    <div class="weather">
-      <font-awesome-icon class="weather-icon" icon="fa-solid fa-sun" />
-      <p class="temp">10°/<span style="color: #0c9ed5">-2°</span></p>
+    <div class="weather" v-if="day.showWeather">
+      <img
+              v-if="day.showWeather"
+              :src="getWeatherIcon(day.weather)"
+              alt="Pogoda"
+              class="weather-icon"
+            />
+            <p class="temp">
+              {{ getWeatherMaxTemp(day.weather) }}°/<span style="color: #0c9ed5"
+                >{{ getWeatherMinTemp(day.weather) }}°</span
+              >
+            </p>
     </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
+    <div class="task" 
+            @click="handleOnClickOpenModalEdit"
+            v-if="day.showEvent"
+            v-for="event in day.events"
+            :style="{ backgroundColor: '#' + event.color }">
+      <p class="task-name">{{ event.name }}</p>
+      <p class="task-description">{{ event.description }}</p>
+      <p class="task-time">{{ event.startTime }} - {{ event.endTime }}</p>
     </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
-    <div class="task">
-      <p class="task-name">Nazwa zadania</p>
-      <p class="task-time">16:23 jedna z lepszych godzin</p>
-    </div>
+
   </div>
 
-  <div class="add-button"><p class="plus">+</p></div>
+  <div class="add-button" @click="handleOnClickOpenModal"><p class="plus">+</p></div>
 </template>
 
 <style scoped>
@@ -199,14 +442,18 @@ button {
 
 .holiday {
   margin-top: 15px;
+  margin-bottom: 15px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  gap: 15px;
 }
 .holiday-text {
   font-size: 22px;
   color: #0c9ed5;
   font-weight: bold;
   margin-bottom: 10px;
+  text-align: center;
 }
 .weather {
   display: flex;
@@ -234,6 +481,7 @@ button {
   border: 2px #0c9ed5 solid;
   border-radius: 5px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 .task-name {
   font-size: 22px;

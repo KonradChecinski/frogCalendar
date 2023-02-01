@@ -4,7 +4,8 @@ import { useFetchStore } from "@/stores/fetch";
 import useModal from "@/stores/modal";
 import { useOptionsStore } from "@/stores/Options";
 import { reactive, computed, watch } from "vue";
-import WelcomeItem from "../WelcomeItem.vue";
+import Task from "../Modal/Task.vue";
+
 
 const OptionsStore = useOptionsStore();
 const FetchStore = useFetchStore();
@@ -257,16 +258,17 @@ const emit = defineEmits(["update:modelValue"]);
 
 const modal = useModal();
   function handleOnClickOpenModal() {
-    modal.open(WelcomeItem,
+    modal.open(Task,
     Calendar.chooseDateDay.date,
+    true,
      [
-      {
-        // label: "Save",
-        // callback: (dataFromView) => {
-        //   console.log(dataFromView);
-        //   modal.close();
-        // },
-      }
+      // {
+      //   label: "Save",
+      //   callback: (dataFromView) => {
+      //     console.log(dataFromView);
+      //     modal.close();
+      //   },
+      // }
     ]);
   }
 

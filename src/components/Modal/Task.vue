@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 
+const props = defineProps<{
+      date: Date
+      edit: Boolean
+    }>()
 const state = reactive({
-  edit: false,
+  edit: props.edit,
 
-  taskName: "Nazwa wydarzenia",
-  taskDescription: "Opis wydarzenia / brak",
-  taskDate: "02.02.2023",
-  taskTime: "12:22",
-  taskColor: "",
+  taskName: "",
+  taskDescription: "",
+  taskDate: props.date.getFullYear() + '-' + ("0" + (props.date.getMonth()+1)).slice(-2) + '-' + ("0" + (props.date.getDate())).slice(-2),
+  
+  taskTime: "",
+  taskColor: "#333333",
 });
 </script>
 
 <template>
   <div class="task-container">
     <div class="header">
-      <img class="x-icon" alt="exit icon" src="@/assets/icons/x_icon.png" />
+      <img class="x-icon" alt="exit icon" src="@/assets/icons/x_icon.png" @click="$emit('closeClick')"/>
       <div class="edit-div" v-if="!state.edit">
         <button @click="state.edit = true">
           <img
@@ -40,6 +45,7 @@ const state = reactive({
       <div class="task-info-text-container">
         <p class="task-info-text">{{ state.taskName }}</p>
         <p>{{ state.taskDate }}</p>
+        <!-- <p>{{ date.getDate() }}</p> -->
       </div>
     </div>
     <div class="task-name-edit" v-else>
