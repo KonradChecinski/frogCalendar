@@ -268,21 +268,6 @@ function setMonthLater() {
 function changeSelection(day: Day) {
   day.chooseDay = true;
   if (day != Calendar.chooseDateDay) Calendar.chooseDateDay.chooseDay = false;
-  // if (
-  //   "" + day.date.getFullYear() + ("0" + day.date.getMonth()).slice(-2) !=
-  //   "" +
-  //     Calendar.chooseDate.getFullYear() +
-  //     ("0" + Calendar.chooseDate.getMonth()).slice(-2)
-  // ) {
-  //   if (
-  //     "" + day.date.getFullYear() + ("0" + day.date.getMonth()).slice(-2) <
-  //     "" +
-  //       Calendar.chooseDate.getFullYear() +
-  //       ("0" + Calendar.chooseDate.getMonth()).slice(-2)
-  //   )
-  //     setMonthEarlier();
-  //   else setMonthLater();
-  // }
 
   if (Calendar.chooseDateDay == day)
     router.push({ path: "/cal1", query: { date: JSON.stringify(day.date) } });
@@ -330,54 +315,25 @@ function getTaskHours(event: any) {
 // no need to import defineEmits
 const emit = defineEmits(["update:modelValue"]);
 
-// // when someVar changes, it will update the reference passed via v-model
-// watch(someVar, (value) => {
-//   emit("update:modelValue", value);
-// });
-
 const modal = useModal();
 function handleOnClickOpenModal(event: any) {
-  modal.open(Task, Calendar.chooseDate, false, event, [
-    // {
-    //   label: "Save",
-    //   callback: (dataFromView) => {
-    //     console.log(dataFromView);
-    //     modal.close();
-    //   },
-    // }
-  ]);
+  modal.open(Task, Calendar.chooseDate, false, event, []);
 }
 
 function handleOnClickOpenModalEdit(event: any) {
-  modal.open(Task, Calendar.chooseDate, true, event, [
-    // {
-    //   label: "Save",
-    //   callback: (dataFromView) => {
-    //     console.log(dataFromView);
-    //     modal.close();
-    //   },
-    // }
-  ]);
+  modal.open(Task, Calendar.chooseDate, true, event, []);
 }
 
 function handleOnClickOpenModalWeather() {
-  modal.open(WeatherDetails, Calendar.chooseDate, false, [
-    // {
-    //   label: "Save",
-    //   callback: (dataFromView) => {
-    //     console.log(dataFromView);
-    //     modal.close();
-    //   },
-    // }
-  ]);
+  modal.open(WeatherDetails, Calendar.chooseDate, false, []);
 }
 
-function getContrastYIQ(hexcolor: any){
-    var r = parseInt(hexcolor.substring(1,3),16);
-    var g = parseInt(hexcolor.substring(3,5),16);
-    var b = parseInt(hexcolor.substring(5,7),16);
-    var yiq = ((r*299)+(g*587)+(b*114))/1000;
-    return (yiq >= 128) ? 'black' : 'white';
+function getContrastYIQ(hexcolor: any) {
+  var r = parseInt(hexcolor.substring(1, 3), 16);
+  var g = parseInt(hexcolor.substring(3, 5), 16);
+  var b = parseInt(hexcolor.substring(5, 7), 16);
+  var yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  return yiq >= 128 ? "black" : "white";
 }
 </script>
 
@@ -397,7 +353,7 @@ function getContrastYIQ(hexcolor: any){
           actualYear
         }}
       </h2>
-      <h3>{{ dayNames[Calendar.today.getDay()] }}</h3>
+      <h3>{{ dayNames[Calendar.chooseDate.getDay()] }}</h3>
     </div>
     <button @click="setMonthLater">
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -431,10 +387,10 @@ function getContrastYIQ(hexcolor: any){
       @click="handleOnClickOpenModal(event)"
       v-if="day.showEvent"
       v-for="event in day.events"
-      :style="{ 
+      :style="{
         backgroundColor: '#' + event.color,
-        color: getContrastYIQ('#' + event.color)
-    }"
+        color: getContrastYIQ('#' + event.color),
+      }"
     >
       <p class="task-name">{{ event.name }}</p>
       <p class="task-description">{{ event.description }}</p>
@@ -443,7 +399,7 @@ function getContrastYIQ(hexcolor: any){
   </div>
 
   <div class="add-button" @click="handleOnClickOpenModalEdit(undefined)">
-    <p class="plus"><font-awesome-icon icon="fa-solid fa-plus" /></p>
+    <font-awesome-icon icon="fa-solid fa-plus" class="plus" />
   </div>
 </template>
 
@@ -540,7 +496,7 @@ button {
 .plus {
   font-weight: bold;
   position: relative;
-  font-size: 2.7rem;
+  font-size: 2.25rem;
   color: black;
   bottom: -4%;
 }

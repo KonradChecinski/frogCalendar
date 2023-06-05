@@ -330,20 +330,9 @@ const emit = defineEmits(["update:modelValue"]);
 // });
 
 const modal = useModal();
-  function handleOnClickOpenModal() {
-    modal.open(Task,
-    Calendar.chooseDateDay.date,
-    true,
-     [
-      // {
-      //   label: "Save",
-      //   callback: (dataFromView) => {
-      //     console.log(dataFromView);
-      //     modal.close();
-      //   },
-      // }
-    ]);
-  }
+function handleOnClickOpenModal() {
+  modal.open(Task, Calendar.chooseDateDay.date, true, []);
+}
 </script>
 
 <template>
@@ -411,7 +400,7 @@ const modal = useModal();
   </div>
 
   <div class="add-button" @click="handleOnClickOpenModal">
-    <p class="plus"><font-awesome-icon icon="fa-solid fa-plus" /></p>
+    <font-awesome-icon icon="fa-solid fa-plus" class="plus" />
   </div>
 </template>
 
@@ -559,7 +548,7 @@ button {
 .plus {
   font-weight: bold;
   position: relative;
-  font-size: 2.7rem;
+  font-size: 2.25rem;
   color: black;
   bottom: -4%;
 }

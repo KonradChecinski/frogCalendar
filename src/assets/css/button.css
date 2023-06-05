@@ -1,46 +1,48 @@
 .button {
-    background-color: #0C9ED5;
-    background-image: linear-gradient(#37ADB2, #329CA0);
-    border: 1px solid #0C9ED5;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
-    color: black;
-    /* font-weight: bold; */
-    cursor: pointer;
-    display: block;
-    font-family: -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 17px;
-    line-height: 100%;
-    margin: 0;
-    outline: 0;
-    padding: 11px 15px 12px;
-    text-align: center;
-    transition: box-shadow .05s ease-in-out, opacity .05s ease-in-out;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    width: 100%;
+  background-color: #0c9ed5;
+  /* background-image: linear-gradient(#37adb2, #329ca0); */
+  border: 1px solid #0c9ed5;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
+  color: black;
+  /* font-weight: bold; */
+  cursor: pointer;
+  display: block;
+  font-family: -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 11px 15px 12px;
+  text-align: center;
+  transition: box-shadow 0.05s ease-in-out, opacity 0.05s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
 }
 
 .button:hover {
-    box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset, rgba(0, 0, 0, 0.4) 0 1px 2px;
-    text-decoration: none;
-    transition-duration: .15s, .15s;
+  box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset,
+    rgba(0, 0, 0, 0.4) 0 1px 2px;
+  text-decoration: none;
+  transition-duration: 0.15s, 0.15s;
 }
 
 .button:active {
-    box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
 }
 
 .button:disabled {
-    cursor: not-allowed;
-    opacity: .6;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .button:disabled:active {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .button:disabled:hover {
-    box-shadow: none;
+  box-shadow: none;
 }

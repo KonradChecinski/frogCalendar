@@ -6,7 +6,6 @@ import { useOptionsStore } from "@/stores/Options";
 import { reactive, computed, watch } from "vue";
 import Task from "../Modal/Task.vue";
 
-
 const OptionsStore = useOptionsStore();
 const FetchStore = useFetchStore();
 
@@ -64,7 +63,16 @@ const dayNames = ["Pn", "Wt", "Śr", "Czw", "Pt", "So", "Nd"];
 let Calendar = reactive({
   today: new Date(),
   chooseDate: new Date(),
-  chooseDateDay: new Day("0", new Date(), false, {}, false, false, false, false),
+  chooseDateDay: new Day(
+    "0",
+    new Date(),
+    false,
+    {},
+    false,
+    false,
+    false,
+    false
+  ),
   table: [[new Day("0", new Date(), false, {}, false, false, false, false)]],
   update: { count: 0 },
 });
@@ -147,13 +155,29 @@ function setCalendarTable() {
             Calendar.today.getDate() + 13
           ); //getWeekOfYear(date) == getWeekOfYear(Calendar.today)
 
-        let weather: any = FetchStore.Weather.find((obj: any) => {
-          return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
-        })
-        showWeather = showWeather && weather;
-          
-      let showEvent = OptionsStore.Events && FetchStore.Events.find((obj: any) => {
-          return obj.date === date.getFullYear() + '-' + ("0" + (date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)
+      let weather: any = FetchStore.Weather.find((obj: any) => {
+        return (
+          obj.date ===
+          date.getFullYear() +
+            "-" +
+            ("0" + (date.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + date.getDate()).slice(-2)
+        );
+      });
+      showWeather = showWeather && weather;
+
+      let showEvent =
+        OptionsStore.Events &&
+        FetchStore.Events.find((obj: any) => {
+          return (
+            obj.date ===
+            date.getFullYear() +
+              "-" +
+              ("0" + (date.getMonth() + 1)).slice(-2) +
+              "-" +
+              ("0" + date.getDate()).slice(-2)
+          );
         });
 
       let outOfMonth = date.getMonth() != Calendar.chooseDate.getMonth();
@@ -214,14 +238,16 @@ function changeSelection(day: Day) {
     else setMonthLater();
   }
 
-  if(Calendar.chooseDateDay == day) router.push({path: "/cal1", query: {date: JSON.stringify(day.date)}});
+  if (Calendar.chooseDateDay == day)
+    router.push({ path: "/cal1", query: { date: JSON.stringify(day.date) } });
   Calendar.chooseDateDay = day;
 }
 
-function getWeatherIcon( weather: any){
-  if(weather.day) return `/src/assets/icons/weather/${weather.day.condition.code}.svg`
+function getWeatherIcon(weather: any) {
+  if (weather.day)
+    return `/src/assets/icons/weather/${weather.day.condition.code}.svg`;
 
-  return '';
+  return "";
 }
 
 const getWeekOfYear = function (date: Date) {
@@ -242,11 +268,6 @@ const getWeekOfYear = function (date: Date) {
   );
 };
 
-
-
-
-
-
 // no need to import defineEmits
 const emit = defineEmits(["update:modelValue"]);
 
@@ -255,59 +276,19 @@ const emit = defineEmits(["update:modelValue"]);
 //   emit("update:modelValue", value);
 // });
 
-
 const modal = useModal();
-  function handleOnClickOpenModal() {
-    modal.open(Task,
-    Calendar.chooseDateDay.date,
-    true,
-     [
-      // {
-      //   label: "Save",
-      //   callback: (dataFromView) => {
-      //     console.log(dataFromView);
-      //     modal.close();
-      //   },
-      // }
-    ]);
-  }
-
-
-
-
-
-
+function handleOnClickOpenModal() {
+  modal.open(Task, Calendar.chooseDateDay.date, true, [
+    // {
+    //   label: "Save",
+    //   callback: (dataFromView) => {
+    //     console.log(dataFromView);
+    //     modal.close();
+    //   },
+    // }
+  ]);
+}
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <template>
   <!-- <div class="top-nav-bar">
@@ -365,7 +346,9 @@ const modal = useModal();
     </div>
   </div>
 
-  <div class="add-button" @click="handleOnClickOpenModal"><p class="plus"><font-awesome-icon icon="fa-solid fa-plus" /></p></div>
+  <div class="add-button" @click="handleOnClickOpenModal">
+    <font-awesome-icon icon="fa-solid fa-plus" class="plus" />
+  </div>
 </template>
 
 <style scoped src="@/assets/css/calendarMonth.css"></style>

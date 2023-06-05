@@ -81,7 +81,7 @@ button {
   height: 90%;
   /* width: auto; */
 }
-@media screen and (min-width: 900px){
+@media screen and (min-width: 900px) {
   .weather-icon {
     width: 50%;
   }
@@ -144,7 +144,7 @@ button {
 .plus {
   font-weight: bold;
   position: relative;
-  font-size: 2.7rem;
+  font-size: 2.25rem;
   color: black;
   bottom: -4%;
 }

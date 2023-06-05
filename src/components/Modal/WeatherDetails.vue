@@ -3,93 +3,107 @@ import { useFetchStore } from "@/stores/fetch";
 import { useOptionsStore } from "@/stores/Options";
 
 const props = defineProps<{
-      date: Date
-      edit: Boolean
-    }>()
+  date: Date;
+  edit: Boolean;
+}>();
 
-    
-  const OptionsStore = useOptionsStore();
-  const FetchStore = useFetchStore();
+const OptionsStore = useOptionsStore();
+const FetchStore = useFetchStore();
 
-  const weather:any = FetchStore.Weather.find((obj: any) => {
-          return obj.date === props.date.getFullYear() + '-' + ("0" + (props.date.getMonth()+1)).slice(-2) + '-' + ("0" + (props.date.getDate())).slice(-2)
-        })
-  console.log(weather);
-  
+const weather: any = FetchStore.Weather.find((obj: any) => {
+  return (
+    obj.date ===
+    props.date.getFullYear() +
+      "-" +
+      ("0" + (props.date.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + props.date.getDate()).slice(-2)
+  );
+});
 
-  function getNameOfMoon(name: string){
-    switch (name) {
-      case "New Moon":
-        return "Nów";
-        break;
-      case "Waxing Crescent":
-        return "Przybywający sierp";
-        break;
-      case "First Quarter":
-        return "Pierwsza kwadra";
-        break;
-      case "Waxing Gibbous":
-        return "Księżyc przybywający garbaty";
-        break;
-      case "Full Moon":
-        return "Pełnia";
-        break;
-      case "Waning Gibbous":
-        return "Księżyc ubywający garbaty";
-        break;
-      case "Last Quarter":
-        return "Trzecia kwadra";
-        break;
-      case "Waning Crescent":
-        return "Księżyc balsamiczny";
-        break;
+function getNameOfMoon(name: string) {
+  switch (name) {
+    case "New Moon":
+      return "Nów";
+      break;
+    case "Waxing Crescent":
+      return "Przybywający sierp";
+      break;
+    case "First Quarter":
+      return "Pierwsza kwadra";
+      break;
+    case "Waxing Gibbous":
+      return "Księżyc przybywający garbaty";
+      break;
+    case "Full Moon":
+      return "Pełnia";
+      break;
+    case "Waning Gibbous":
+      return "Księżyc ubywający garbaty";
+      break;
+    case "Last Quarter":
+      return "Trzecia kwadra";
+      break;
+    case "Waning Crescent":
+      return "Księżyc balsamiczny";
+      break;
 
-      default:
-        break;
-    }
-    return ''
+    default:
+      break;
   }
-
-  function getWeatherIcon( weather: any){
-  if(weather.day) return `/src/assets/icons/weather/${weather.day.condition.code}.svg`
-
-  return '';
+  return "";
 }
 
+function getWeatherIcon(weather: any) {
+  if (weather.day)
+    return `/src/assets/icons/weather/${weather.day.condition.code}.svg`;
 
-  function get24Time(timeString: string) {
-    const [time, modifier] = timeString.split(' ');
+  return "";
+}
 
-  let [hours, minutes] = time.split(':');
+function get24Time(timeString: string) {
+  const [time, modifier] = timeString.split(" ");
 
-  if (hours === '12') {
-    hours = '00';
+  let [hours, minutes] = time.split(":");
+
+  if (hours === "12") {
+    hours = "00";
   }
 
-  if (modifier === 'PM') {
+  if (modifier === "PM") {
     hours = (parseInt(hours, 10) + 12).toString();
   }
 
   return `${hours}:${minutes}`;
-  }
+}
 </script>
 
 <template>
   <div class="weather-details-container">
-    <div class="header"><img class="x-icon" alt="exit icon" src="@/assets/icons/x_icon.png" @click="$emit('closeClick')"/></div>
-    
+    <div class="header">
+      <img
+        class="x-icon"
+        alt="exit icon"
+        src="@/assets/icons/x_icon.png"
+        @click="$emit('closeClick')"
+      />
+    </div>
 
     <div class="info-header">
       <p class="weather-details-text">Szczegóły pogody</p>
-      <p class="date">{{ ("0" + (props.date.getDate())).slice(-2) + '.' + ("0" + (props.date.getMonth()+1)).slice(-2)  + '.' + props.date.getFullYear()}}</p>
+      <p class="date">
+        {{
+          ("0" + props.date.getDate()).slice(-2) +
+          "." +
+          ("0" + (props.date.getMonth() + 1)).slice(-2) +
+          "." +
+          props.date.getFullYear()
+        }}
+      </p>
     </div>
 
     <div class="info-weather-container">
-      <img
-            :src="getWeatherIcon(weather)"
-            alt="Pogoda"
-            class="weather-icon"
-          />
+      <img :src="getWeatherIcon(weather)" alt="Pogoda" class="weather-icon" />
       <div class="info-weather">
         <p class="weather-info-text">WILGOTNOŚĆ</p>
         <p>{{ weather.day.avghumidity }}%</p>
@@ -98,7 +112,11 @@ const props = defineProps<{
         <p class="weather-info-text">OPADY ŚNIEGU</p>
         <p>{{ weather.day.daily_chance_of_snow }}%</p>
         <p class="weather-info-text">TEMPERATURA</p>
-        <p class="temp">{{ weather.day.maxtemp_c }}°/<span style="color: #0c9ed5">{{ weather.day.mintemp_c }}°</span></p>
+        <p class="temp">
+          {{ weather.day.maxtemp_c }}°/<span style="color: #0c9ed5"
+            >{{ weather.day.mintemp_c }}°</span
+          >
+        </p>
       </div>
     </div>
 
