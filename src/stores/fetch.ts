@@ -61,7 +61,7 @@ export const useFetchStore = defineStore("fetch", () => {
       const mainPath = "http://api.weatherapi.com/v1/forecast.json";
 
       let option: Record<string, any> = {
-        key: "45167192c9864a86931224105232801",
+        key: "808049fb20754a5cade114641230506",
         q: "Gliwice",
         days: 14,
       };
@@ -119,7 +119,34 @@ export const useFetchStore = defineStore("fetch", () => {
     });
   }
 
+  async function fetchDataImportFile(path: string, body: {} = {}) {
+    return new Promise((resolve, reject) => {
+      const mainPath = "http://back.webitup.pl/api";
+
+      let option: Record<string, any> = {
+        method: "POST",
+        // mode: "no-cors",
+        headers: {
+          // "Content-Type": undefined,
+          Accept: "application/json",
+          Authorization: "Bearer " + LoggedStore.APIKey,
+        },
+        body: body,
+      };
+
+      fetch(mainPath + path, option).then((res) => {
+        if (!res.ok) {
+          console.log(`Error: ${res.status}`);
+          reject(res.json());
+        } else {
+          resolve(res.json());
+        }
+      });
+    });
+  }
+
   return {
+    fetchDataImportFile,
     fetchDataFromFrogAPI,
     getEvents,
     getEventsWithoutHesitate,

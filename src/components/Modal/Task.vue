@@ -3,15 +3,15 @@ import { reactive, watch } from "vue";
 import { useFetchStore } from "@/stores/fetch";
 const FetchStore = useFetchStore();
 
-const emit = defineEmits(['closeClick'])
+const emit = defineEmits(["closeClick"]);
 
 const props = defineProps<{
   date: Date;
   edit: Boolean;
-  calendarEvent: any
+  calendarEvent: any;
 }>();
 const loading = reactive({
-  loading: false
+  loading: false,
 });
 const state = reactive({
   edit: props.edit,
@@ -19,124 +19,101 @@ const state = reactive({
   taskId: 0,
   taskName: "",
   taskDescription: "",
-  taskDate:"",
+  taskDate: "",
   taskTimeFrom: "",
   taskTimeTo: "",
   taskColor: "",
   fullDay: false,
 });
-if(props.calendarEvent){
-  console.log(state);
+if (props.calendarEvent) {
   state.taskId = props.calendarEvent.id;
   state.taskName = props.calendarEvent.name;
   state.taskDescription = props.calendarEvent.description;
   state.taskDate = props.calendarEvent.date;
-  state.taskTimeFrom = props.calendarEvent.startTime?.slice(0,-3);
-  state.taskTimeTo = props.calendarEvent.endTime?.slice(0,-3);
-  state.taskColor = '#'+props.calendarEvent.color;
+  state.taskTimeFrom = props.calendarEvent.startTime?.slice(0, -3);
+  state.taskTimeTo = props.calendarEvent.endTime?.slice(0, -3);
+  state.taskColor = "#" + props.calendarEvent.color;
 
-  state.fullDay = !props.calendarEvent.endTime && !props.calendarEvent.startTime;
-  console.log(state);
-}else{
-  state.taskDate = props.date.getFullYear() +
+  state.fullDay =
+    !props.calendarEvent.endTime && !props.calendarEvent.startTime;
+} else {
+  state.taskDate =
+    props.date.getFullYear() +
     "-" +
     ("0" + (props.date.getMonth() + 1)).slice(-2) +
     "-" +
     ("0" + props.date.getDate()).slice(-2);
 }
 
-
-
-
-// watch(state, ()=>{
-//   console.log(state);
-// })
-
 function getTaskHours() {
   if (!state.fullDay) return `${state.taskTimeFrom} - ${state.taskTimeTo}`;
   return `cały dzień`;
 }
 
-
 // FETCH
 
-function deleteEvent(eventId: number){
+function deleteEvent(eventId: number) {
   FetchStore.fetchDataFromFrogAPI(`/event/${eventId}`, "DELETE").then(
-        (value: any) => {
-          loading.loading = true; 
-          FetchStore.getEventsWithoutHesitate().then((result:any) =>{
-            emit('closeClick');
-          });
-        },
-        (error) => {
-          let result: any = error;
-          result.then((res: any) => {
-            console.log(res);
-          });
-        }
-      );
+    (value: any) => {
+      loading.loading = true;
+      FetchStore.getEventsWithoutHesitate().then((result: any) => {
+        emit("closeClick");
+      });
+    },
+    (error) => {
+      let result: any = error;
+      result.then((res: any) => {
+        console.log(res);
+      });
+    }
+  );
 }
 
-
-
-function addOrEditEvent(){
+function addOrEditEvent() {
   let body: any = {
-      name: state.taskName,
-      description: state.taskDescription,
-      color: state.taskColor.slice(1),
-      date: state.taskDate,
-    };
+    name: state.taskName,
+    description: state.taskDescription,
+    color: state.taskColor.slice(1),
+    date: state.taskDate,
+  };
 
-    if(!state.fullDay)
-    {
-      body['startTime'] = state.taskTimeFrom;
-      body['endTime'] = state.taskTimeTo;
-    };
+  if (!state.fullDay) {
+    body["startTime"] = state.taskTimeFrom;
+    body["endTime"] = state.taskTimeTo;
+  }
 
-    // console.log(body);
-
-
-
-  if(state.taskId == 0){
+  if (state.taskId == 0) {
     FetchStore.fetchDataFromFrogAPI(`/event`, "POST", body).then(
-          (value: any) => {
-            loading.loading = true; 
-          FetchStore.getEventsWithoutHesitate().then((result:any) =>{
-            emit('closeClick');
-          });
-          },
-          (error) => {
-            let result: any = error;
-            result.then((res: any) => {
-              console.log(res);
-            });
-          }
-        );
-  }
-  else{
+      (value: any) => {
+        loading.loading = true;
+        FetchStore.getEventsWithoutHesitate().then((result: any) => {
+          emit("closeClick");
+        });
+      },
+      (error) => {
+        let result: any = error;
+        result.then((res: any) => {
+          console.log(res);
+        });
+      }
+    );
+  } else {
     FetchStore.fetchDataFromFrogAPI(`/event/${state.taskId}`, "PUT", body).then(
-          (value: any) => {
-            loading.loading = true; 
-          FetchStore.getEventsWithoutHesitate().then((result:any) =>{
-            emit('closeClick');
-          });
-          },
-          (error) => {
-            let result: any = error;
-            result.then((res: any) => {
-              console.log(res);
-            });
-          }
-        );
+      (value: any) => {
+        loading.loading = true;
+        FetchStore.getEventsWithoutHesitate().then((result: any) => {
+          emit("closeClick");
+        });
+      },
+      (error) => {
+        let result: any = error;
+        result.then((res: any) => {
+          console.log(res);
+        });
+      }
+    );
   }
-  
 }
-
-
-
-
-
-
 </script>
 
 <template>
@@ -164,13 +141,25 @@ function addOrEditEvent(){
           @click="deleteEvent(state.taskId)"
         />
       </div>
-      <button class="save-button" @click="() => {state.edit = false; addOrEditEvent()}" v-else>
+      <button
+        class="save-button"
+        @click="
+          () => {
+            state.edit = false;
+            addOrEditEvent();
+          }
+        "
+        v-else
+      >
         <p style="color: black; font-weight: bold">Zapisz</p>
       </button>
     </div>
 
     <div class="task-info" v-if="!state.edit">
-      <div class="task-rectangle" :style="{ backgroundColor: state.taskColor }"></div>
+      <div
+        class="task-rectangle"
+        :style="{ backgroundColor: state.taskColor }"
+      ></div>
       <div class="task-info-text-container">
         <p class="task-info-text">{{ state.taskName }}</p>
         <p>{{ state.taskDate }}</p>
@@ -231,8 +220,16 @@ function addOrEditEvent(){
             style="display: none"
             v-model="state.fullDay"
           />
-          
-          <div for="switch1" class="toggle switch" tabindex="5" :class="{checked: state.fullDay}" @click="state.fullDay=!state.fullDay">Toggle</div>
+
+          <div
+            for="switch1"
+            class="toggle switch"
+            tabindex="5"
+            :class="{ checked: state.fullDay }"
+            @click="state.fullDay = !state.fullDay"
+          >
+            Toggle
+          </div>
         </div>
       </div>
     </div>

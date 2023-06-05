@@ -18,7 +18,6 @@ function login(e: any) {
     password: state.password,
   }).then(
     (value: any) => {
-      console.log(value);
       LoggedStore.APIKey = value.token;
       LoggedStore.username = value.user.name;
       LoggedStore.email = value.user.email;

@@ -330,20 +330,9 @@ const emit = defineEmits(["update:modelValue"]);
 // });
 
 const modal = useModal();
-  function handleOnClickOpenModal() {
-    modal.open(Task,
-    Calendar.chooseDateDay.date,
-    true,
-     [
-      // {
-      //   label: "Save",
-      //   callback: (dataFromView) => {
-      //     console.log(dataFromView);
-      //     modal.close();
-      //   },
-      // }
-    ]);
-  }
+function handleOnClickOpenModal() {
+  modal.open(Task, Calendar.chooseDateDay.date, true, []);
+}
 </script>
 
 <template>
