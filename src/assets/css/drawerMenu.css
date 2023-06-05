@@ -466,6 +466,12 @@ a {
   }
 }
 
+@media all and (max-width: 400px) {
+  .wave-menu {
+    width: 130px;
+  }
+}
+
 @media (min-width: 600px) {
   #drawer {
     width: 300px;
